@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Empire Garden — Beylikdüzü</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,500&family=Yesteryear&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F8F4EA;
+    --cream-deep:#F0E9D8;
+    --charcoal:#211D16;
+    --charcoal-soft:#5C5648;
+    --forest:#1F4A2E;
+    --forest-deep:#123420;
+    --forest-soft:#4C7A56;
+    --amber:#C9932E;
+    --amber-soft:#E3C892;
+    --line:rgba(33,29,22,0.12);
+    --radius:3px;
+    --maxw:1180px;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--cream);
+    color:var(--charcoal);
+    font-family:'Manrope',sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  img,video{max-width:100%;display:block;}
+  h1,h2,h3{font-family:'Cormorant Garamond',serif;font-weight:600;line-height:1.08;color:var(--charcoal);}
+  .script{font-family:'Yesteryear',cursive;font-weight:400;color:var(--forest);}
+  .eyebrow{font-size:0.72rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--forest);font-weight:700;display:flex;align-items:center;gap:10px;}
+  .eyebrow::before{content:'';width:22px;height:1px;background:var(--amber);display:inline-block;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  section{position:relative;}
+
+  /* signature: breathing lantern glow */
+  .lantern{
+    position:absolute;
+    width:180px;height:180px;
+    border-radius:50%;
+    background:radial-gradient(circle, rgba(201,147,46,0.35), transparent 70%);
+    filter:blur(6px);
+    animation:breathe 5s ease-in-out infinite;
+    pointer-events:none;
+    z-index:0;
+  }
+  @keyframes breathe{0%,100%{opacity:0.45;transform:scale(1);}50%{opacity:0.85;transform:scale(1.15);}}
+
+  /* ---------- HEADER ---------- */
+  header{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 0;transition:background .35s ease, padding .35s ease, box-shadow .35s ease;}
+  header.scrolled{background:rgba(248,244,234,0.9);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding:12px 0;box-shadow:0 1px 0 var(--line);}
+  header .wrap{display:flex;align-items:center;justify-content:space-between;}
+  .brand{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:700;letter-spacing:0.04em;display:flex;align-items:baseline;gap:6px;color:var(--forest-deep);}
+  .brand .script{font-size:1.4rem;}
+  .header-actions{display:flex;align-items:center;gap:10px;}
+  .icon-btn{width:40px;height:40px;border-radius:50%;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;background:transparent;color:var(--forest-deep);}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 26px;font-size:0.82rem;letter-spacing:0.05em;font-weight:700;border-radius:var(--radius);border:1px solid var(--forest);background:var(--forest);color:var(--cream);transition:all .25s ease;cursor:pointer;white-space:nowrap;}
+  .btn:hover{background:var(--forest-deep);border-color:var(--forest-deep);}
+  .btn.ghost{background:transparent;color:var(--charcoal);border-color:var(--charcoal);}
+  .btn.ghost:hover{background:var(--charcoal);color:var(--cream);}
+  .btn.amber{background:var(--amber);border-color:var(--amber);color:var(--charcoal);}
+  .btn.amber:hover{background:#B37F22;border-color:#B37F22;}
+  .btn.small{padding:9px 18px;font-size:0.72rem;}
+  :focus-visible{outline:2px solid var(--forest);outline-offset:2px;}
+
+  /* ---------- HERO ---------- */
+  .hero-photo{
+    margin-top:0;
+    height:64vh;
+    min-height:420px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-photo img{width:100%;height:100%;object-fit:cover;object-position:center 30%;}
+  .hero-photo::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(180deg, rgba(18,52,32,0.15) 0%, rgba(18,52,32,0.05) 50%, var(--cream) 96%);
+  }
+  .hero-text{padding:70px 0 50px;position:relative;}
+  .hero-text .wrap{max-width:700px;}
+  .hero-text h1{font-size:clamp(2.4rem,6vw,4rem);margin:18px 0 18px;letter-spacing:-0.01em;}
+  .hero-text p.lead{font-size:1.06rem;color:var(--charcoal-soft);max-width:520px;margin-bottom:30px;}
+  .hero-ctas{display:flex;flex-wrap:wrap;gap:14px;position:relative;z-index:2;}
+
+  /* badges */
+  .badges{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--cream-deep);}
+  .badges .wrap{display:grid;grid-template-columns:repeat(4,1fr);}
+  .badge{display:flex;align-items:center;gap:12px;padding:20px 20px;border-right:1px solid var(--line);}
+  .badge:last-child{border-right:none;}
+  .badge svg{width:22px;height:22px;flex-shrink:0;color:var(--forest);}
+  .badge .t{font-size:0.84rem;font-weight:700;}
+  .badge .s{font-size:0.74rem;color:var(--charcoal-soft);}
+  @media (max-width:900px){ .badges .wrap{grid-template-columns:1fr 1fr;} .badge{border-bottom:1px solid var(--line);} .badge:nth-child(2n){border-right:none;} }
+  @media (max-width:520px){ .badges .wrap{grid-template-columns:1fr;} .badge{border-right:none;} }
+
+  /* ---------- ABOUT ---------- */
+  .about{padding:110px 0;}
+  .about .wrap{display:grid;grid-template-columns:0.9fr 1.1fr;gap:70px;align-items:center;}
+  .about-visual{background:var(--forest-deep);border-radius:var(--radius);aspect-ratio:4/5;position:relative;overflow:hidden;display:flex;align-items:flex-end;padding:28px;}
+  .about-visual img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0.55;}
+  .about-visual::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg, rgba(18,52,32,0.1), rgba(18,52,32,0.92));}
+  .about-visual .quote{position:relative;z-index:2;color:var(--cream);font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1.3rem;line-height:1.4;}
+  .about-visual .quote small{display:block;margin-top:14px;font-family:'Manrope',sans-serif;font-style:normal;font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber-soft);}
+  .about h2{font-size:clamp(2rem,4vw,2.7rem);margin:16px 0 22px;}
+  .about p{color:var(--charcoal-soft);margin-bottom:16px;max-width:520px;}
+  .about-stats{display:flex;gap:40px;margin-top:32px;padding-top:28px;border-top:1px solid var(--line);flex-wrap:wrap;}
+  .about-stats div b{display:block;font-family:'Cormorant Garamond',serif;font-size:2rem;color:var(--forest);}
+  .about-stats div span{font-size:0.78rem;color:var(--charcoal-soft);}
+  @media (max-width:860px){ .about .wrap{grid-template-columns:1fr;gap:36px;} }
+
+  /* divider */
+  .divider{display:flex;justify-content:center;padding:6px 0;}
+  .divider svg{width:120px;height:20px;}
+  .divider path{fill:none;stroke:var(--amber);stroke-width:1.4;stroke-linecap:round;stroke-dasharray:220;stroke-dashoffset:220;animation:draw 2.2s ease forwards;}
+  @keyframes draw{to{stroke-dashoffset:0;}}
+
+  /* ---------- PRESS ---------- */
+  .press{padding:100px 0 110px;background:var(--cream-deep);}
+  .press-head{max-width:640px;margin-bottom:50px;}
+  .press-head h2{font-size:clamp(2rem,4vw,2.7rem);margin:16px 0 14px;}
+  .press-head p{color:var(--charcoal-soft);}
+  .press-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:24px;}
+  .press-feature{
+    background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:38px;
+    display:flex;flex-direction:column;gap:16px;
+  }
+  .press-feature .src{display:flex;align-items:center;gap:10px;font-size:0.78rem;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:var(--forest);}
+  .press-feature .src .dot{width:7px;height:7px;border-radius:50%;background:var(--amber);}
+  .press-feature h3{font-size:1.5rem;font-style:italic;font-weight:500;}
+  .press-feature p{color:var(--charcoal-soft);font-size:0.95rem;}
+  .press-feature a.readmore{font-size:0.82rem;font-weight:700;color:var(--forest);display:inline-flex;align-items:center;gap:6px;margin-top:4px;}
+  .press-side{display:flex;flex-direction:column;gap:24px;}
+  .press-mini{
+    background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);
+    padding:22px;display:flex;flex-direction:column;justify-content:center;gap:8px;flex:1;
+  }
+  .press-mini .name{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:700;color:var(--charcoal-soft);}
+  .press-mini .tag{font-size:0.72rem;color:var(--charcoal-soft);opacity:0.7;}
+  .press-mini.placeholder{border-style:dashed;opacity:0.65;}
+  @media (max-width:860px){ .press-grid{grid-template-columns:1fr;} }
+
+  /* ---------- REELS ---------- */
+  .reels{padding:110px 0;}
+  .reels-head{display:flex;justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:44px;flex-wrap:wrap;}
+  .reels-head h2{font-size:clamp(2rem,4vw,2.7rem);margin:16px 0 0;}
+  .ig-follow{
+    display:inline-flex;align-items:center;gap:10px;
+    padding:10px 18px;border:1px solid var(--line);border-radius:40px;
+    font-size:0.82rem;font-weight:700;
+  }
+  .ig-follow svg{width:18px;height:18px;color:var(--forest);}
+  .reel-grid{display:grid;grid-template-columns:repeat(2,minmax(0,260px));gap:26px;justify-content:center;}
+  .reel-card{
+    position:relative;border-radius:16px;overflow:hidden;background:var(--charcoal);
+    aspect-ratio:9/16;box-shadow:0 18px 40px -14px rgba(18,52,32,0.35);
+  }
+  .reel-card video{width:100%;height:100%;object-fit:cover;}
+  .reel-topbar{
+    position:absolute;top:0;left:0;right:0;z-index:3;
+    display:flex;align-items:center;gap:8px;padding:14px 14px;
+    background:linear-gradient(180deg, rgba(0,0,0,0.45), transparent);
+  }
+  .reel-avatar{
+    width:26px;height:26px;border-radius:50%;
+    background:linear-gradient(135deg,var(--amber),var(--forest));
+    display:flex;align-items:center;justify-content:center;
+    font-family:'Cormorant Garamond',serif;font-weight:700;font-size:0.75rem;color:#fff;
+    flex-shrink:0;
+  }
+  .reel-topbar span{color:#fff;font-size:0.78rem;font-weight:700;}
+  .reel-mute{
+    position:absolute;bottom:14px;right:14px;z-index:3;
+    width:34px;height:34px;border-radius:50%;
+    background:rgba(0,0,0,0.4);
+    display:flex;align-items:center;justify-content:center;
+    border:none;color:#fff;cursor:pointer;
+  }
+  .reel-mute svg{width:16px;height:16px;}
+  @media (max-width:600px){ .reel-grid{grid-template-columns:1fr;max-width:280px;margin:0 auto;} }
+
+  /* ---------- RESERVATION ---------- */
+  .reserve{padding:110px 0;background:var(--cream-deep);}
+  .reserve .wrap{display:grid;grid-template-columns:0.85fr 1.15fr;gap:70px;}
+  .reserve-head h2{font-size:clamp(2rem,4vw,2.7rem);margin:16px 0 14px;}
+  .reserve-head p{color:var(--charcoal-soft);margin-bottom:24px;max-width:400px;}
+  .reserve-info{display:flex;flex-direction:column;gap:16px;margin-top:26px;}
+  .reserve-info a{display:flex;align-items:center;gap:12px;font-size:0.9rem;font-weight:700;padding-bottom:14px;border-bottom:1px solid var(--line);}
+  .reserve-info a svg{width:18px;height:18px;color:var(--forest);flex-shrink:0;}
+
+  .form-card{background:var(--cream);border:1px solid var(--line);border-radius:var(--radius);padding:40px;}
+  .steps{display:flex;gap:8px;margin-bottom:30px;}
+  .steps .dot{flex:1;height:3px;background:var(--line);border-radius:3px;transition:background .3s;}
+  .steps .dot.active{background:var(--forest);}
+  .step{display:none;}
+  .step.active{display:block;animation:fadeIn .35s ease;}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+  .step label.small-label{font-size:0.72rem;letter-spacing:0.1em;text-transform:uppercase;color:var(--charcoal-soft);font-weight:700;margin-bottom:14px;display:block;}
+  .option-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:26px;}
+  .option{padding:16px 18px;border:1px solid var(--line);border-radius:var(--radius);background:var(--cream);font-weight:700;font-size:0.92rem;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:border-color .2s, background .2s;}
+  .option small{font-weight:500;color:var(--charcoal-soft);display:block;margin-top:3px;}
+  .option.selected{border-color:var(--forest);background:#fff;}
+  .option.selected::after{content:'✓';color:var(--forest);}
+  .field{margin-bottom:18px;}
+  .field label{font-size:0.78rem;font-weight:700;display:block;margin-bottom:8px;}
+  .field input, .field textarea{width:100%;padding:13px 14px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;font-family:'Manrope',sans-serif;font-size:0.94rem;resize:vertical;}
+  .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:26px;}
+  .confirm-msg{text-align:center;padding:20px 0;}
+  .confirm-msg .check{width:52px;height:52px;border-radius:50%;background:var(--forest);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;color:#fff;font-size:1.3rem;}
+  @media (max-width:860px){ .reserve .wrap{grid-template-columns:1fr;gap:36px;} .form-card{padding:26px;} .field-row{grid-template-columns:1fr;} }
+
+  /* ---------- COMPLAINT / SUGGESTION ---------- */
+  .feedback{padding:110px 0;}
+  .feedback .wrap{display:grid;grid-template-columns:0.85fr 1.15fr;gap:70px;}
+  .feedback-head h2{font-size:clamp(2rem,4vw,2.7rem);margin:16px 0 14px;}
+  .feedback-head p{color:var(--charcoal-soft);max-width:400px;}
+  .cat-group{display:flex;gap:10px;margin-bottom:22px;flex-wrap:wrap;}
+  .cat-btn{
+    padding:10px 18px;border:1px solid var(--line);border-radius:40px;
+    font-size:0.82rem;font-weight:700;cursor:pointer;background:var(--cream);
+  }
+  .cat-btn.selected{background:var(--forest);border-color:var(--forest);color:#fff;}
+  @media (max-width:860px){ .feedback .wrap{grid-template-columns:1fr;gap:36px;} }
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--forest-deep);color:var(--cream);padding:80px 0 130px;}
+  footer .wrap{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:50px;}
+  footer h3{color:var(--cream);font-size:1.8rem;margin-bottom:14px;}
+  footer p{color:rgba(248,244,234,0.65);font-size:0.9rem;max-width:320px;}
+  .foot-col .label{font-size:0.72rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--amber-soft);font-weight:700;margin-bottom:16px;}
+  .foot-col a.line{display:flex;align-items:center;gap:10px;font-size:0.92rem;font-weight:600;padding:10px 0;border-bottom:1px solid rgba(248,244,234,0.12);color:rgba(248,244,234,0.88);}
+  .foot-col a.line svg{width:17px;height:17px;color:var(--amber-soft);flex-shrink:0;}
+  .foot-bottom{max-width:var(--maxw);margin:60px auto 0;padding:26px 24px 0;border-top:1px solid rgba(248,244,234,0.12);display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;font-size:0.76rem;color:rgba(248,244,234,0.5);}
+  @media (max-width:860px){ footer .wrap{grid-template-columns:1fr;gap:36px;} }
+
+  /* ---------- STICKY MOBILE BAR ---------- */
+  .sticky-bar{display:none;}
+  @media (max-width:767px){
+    .sticky-bar{display:flex;position:fixed;bottom:0;left:0;right:0;z-index:200;padding:12px 14px;padding-bottom:calc(12px + env(safe-area-inset-bottom));gap:10px;background:rgba(248,244,234,0.94);backdrop-filter:blur(10px);border-top:1px solid var(--line);}
+    .sticky-bar .btn{flex:1;padding:14px 10px;font-size:0.78rem;}
+    body{padding-bottom:78px;}
+  }
+  ::selection{background:var(--amber-soft);color:var(--charcoal);}
+  @media (prefers-reduced-motion: reduce){ *{animation-duration:0.01ms !important; animation-iteration-count:1 !important; transition-duration:0.01ms !important;} }
+</style>
+</head>
+<body>
+
+<header id="site-header">
+  <div class="wrap">
+    <div class="brand">EMPIRE <span class="script">Garden</span></div>
+    <div class="header-actions">
+      <a class="icon-btn" href="tel:+902125550202" aria-label="Hemen ara">
+        <svg viewBox="0 0 24 24" fill="none" width="18" height="18"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1.1L6.6 10.8z" stroke="currentColor" stroke-width="1.5"/></svg>
+      </a>
+      <a class="btn small" href="#reservation">Rezervasyon</a>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- HERO PHOTO BANNER -->
+  <div class="hero-photo">
+    <img src="empiregarden.jpeg" alt="Empire Garden bahçe teras, yeşil koltuklar ve fener ışıkları">
+  </div>
+
+  <section class="hero-text">
+    <div class="wrap">
+      <div class="eyebrow">Beylikdüzü, İstanbul</div>
+      <h1>Ünlülerin uğrak noktası,<br><span class="script" style="font-size:0.62em;">şimdi sizi bekliyor.</span></h1>
+      <p class="lead">Zengin serpme kahvaltı, yeşilin içinde huzurlu bir bahçe konsepti ve İstanbul'un konuşulan mekanlarından biri olma ayrıcalığı — Empire Garden'da.</p>
+      <div class="hero-ctas">
+        <a class="btn" href="#reservation">Rezervasyon Yap</a>
+        <a class="btn ghost" href="https://maps.google.com/?q=Empire+Garden+Beylikduzu+Istanbul" target="_blank" rel="noopener">Yol Tarifi Al</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGES -->
+  <div class="badges">
+    <div class="wrap">
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3c-2 3-3 5-3 7a3 3 0 0 0 6 0c0-2-1-4-3-7z" stroke="currentColor" stroke-width="1.5"/><path d="M5 21c0-4 3-7 7-7s7 3 7 7" stroke="currentColor" stroke-width="1.5"/></svg>
+        <div><div class="t">Zengin Serpme Kahvaltı</div><div class="s">Her damak zevkine</div></div>
+      </div>
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 13l1.5-5A2 2 0 0 1 6.4 6.5h11.2A2 2 0 0 1 19.5 8l1.5 5M3 13v5a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1h12v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-5M3 13h18M6 17h.01M18 17h.01" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div><div class="t">Ücretsiz Vale</div><div class="s">Kapıda güvenli park</div></div>
+      </div>
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 3v2M12 19v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M3 12h2M19 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/></svg>
+        <div><div class="t">Bahçe Konsepti</div><div class="s">Açık hava, yeşil dokular</div></div>
+      </div>
+      <div class="badge">
+        <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 7v5l3.5 2" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <div><div class="t">08:00 – 00:00</div><div class="s">Her gün açığız</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section class="about" id="about">
+    <div class="wrap">
+      <div class="about-visual">
+        <img src="empiregarden.jpeg" alt="Empire Garden akşam atmosferi">
+        <div class="quote">
+          "Misafirimiz kapıdan girdiği an, İstanbul'un telaşını arkasında bırakır."
+          <small>— Empire Garden Ekibi</small>
+        </div>
+      </div>
+      <div>
+        <div class="eyebrow">Hikayemiz</div>
+        <h2>Beylikdüzü'nde yeşilin içinde bir sofra kurduk.</h2>
+        <p>Empire Garden, İstanbul'un kalabalığından uzaklaşıp doğayla iç içe kahvaltı etmek isteyenler için doğdu. Bugün geniş bahçe terasımız, fener ışıklarımız ve zengin serpme kahvaltı sofralarımızla hem ailelerin hem de ünlü isimlerin tercih ettiği bir adres haline geldik.</p>
+        <p>Onlarca çeşit peynir, doğal reçel, köy tereyağı, bal, kaymak, sıcacık bazlama ve mevsim ürünleriyle hazırladığımız sofralarımızı; güler yüzlü hizmetimiz, hızlı servisimiz ve hijyen konusundaki titizliğimizle tamamlıyoruz.</p>
+        <div class="about-stats">
+          <div><b>40+</b><span>Kahvaltı çeşidi</span></div>
+          <div><b>7/24</b><span>Hijyen titizliği</span></div>
+          <div><b>1000+</b><span>Mutlu misafir/ay</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider" aria-hidden="true">
+    <svg viewBox="0 0 120 20"><path d="M5 16 C 25 14, 15 6, 35 6 C 55 6, 45 14, 65 14 C 85 14, 90 6, 115 6"/></svg>
+  </div>
+
+  <!-- BASINDA BİZ -->
+  <section class="press" id="basinda-biz">
+    <div class="wrap">
+      <div class="press-head">
+        <div class="eyebrow">Basında Biz</div>
+        <h2>Haberlerde konuşulan adres.</h2>
+        <p>Zengin serpme kahvaltımız ve misafirperverliğimiz, İstanbul basınında da yer buldu. Empire Garden'ı haberlerde de takip edebilirsiniz.</p>
+      </div>
+      <div class="press-grid">
+        <div class="press-feature">
+          <div class="src"><span class="dot"></span> tnthaber.com</div>
+          <h3>"Ünlülerin uğrak noktası: Empire Garden, Beylikdüzü'nde kahvaltının yeni adresi"</h3>
+          <p>Haberde, Empire Garden'ın zengin serpme kahvaltısı, güler yüzlü personeli ve hijyen konusundaki titiz yaklaşımıyla öne çıktığı; hafta sonları İstanbul'un dört bir yanından misafir ağırladığı ve son dönemde birçok ünlü ismin de mekanı tercih ettiği anlatılıyor.</p>
+          <a class="readmore" href="https://www.tnthaber.com/" target="_blank" rel="noopener">Haberin devamını oku →</a>
+        </div>
+        <div class="press-side">
+          <div class="press-mini">
+            <div class="name">tnthaber.com</div>
+            <div class="tag">Yayınlandı · Güncel</div>
+          </div>
+          <div class="press-mini placeholder">
+            <div class="name">+ Haber Kanalı Ekle</div>
+            <div class="tag">Diğer haberlerinizi buraya ekleyebiliriz</div>
+          </div>
+          <div class="press-mini placeholder">
+            <div class="name">+ Haber Kanalı Ekle</div>
+            <div class="tag">Link ve görsel gönderin, yerleştirelim</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REELS / INSTAGRAM -->
+  <section class="reels" id="reels">
+    <div class="wrap">
+      <div class="reels-head">
+        <div>
+          <div class="eyebrow">Sosyal Medya</div>
+          <h2>Instagram'dan son kareler.</h2>
+        </div>
+        <a class="ig-follow" href="https://instagram.com/empiregarden" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg>
+          @empiregarden — Takip Et
+        </a>
+      </div>
+      <div class="reel-grid">
+        <div class="reel-card">
+          <div class="reel-topbar">
+            <div class="reel-avatar">EG</div>
+            <span>empiregarden</span>
+          </div>
+          <video src="reels3.mp4" poster="reels3-poster.jpg" muted loop playsinline autoplay preload="metadata"></video>
+          <button class="reel-mute" aria-label="Sesi aç/kapat" data-target="0">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="reel-card">
+          <div class="reel-topbar">
+            <div class="reel-avatar">EG</div>
+            <span>empiregarden</span>
+          </div>
+          <video src="reels2-3.mp4" poster="reels2-3-poster.jpg" muted loop playsinline autoplay preload="metadata"></video>
+          <button class="reel-mute" aria-label="Sesi aç/kapat" data-target="1">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M4 9v6h4l5 4V5L8 9H4z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M17.5 8.5a5 5 0 0 1 0 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESERVATION -->
+  <section class="reserve" id="reservation">
+    <div class="wrap">
+      <div class="reserve-head">
+        <div class="eyebrow">Rezervasyon</div>
+        <h2>Yeriniz üç adımda hazır.</h2>
+        <p>Formu doldurun, ekibimiz en geç 15 dakika içinde arayarak rezervasyonunuzu onaylasın.</p>
+        <div class="reserve-info">
+          <a href="tel:+902125550202">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1.1L6.6 10.8z" stroke="currentColor" stroke-width="1.5"/></svg>
+            0212 555 02 02
+          </a>
+          <a href="https://maps.google.com/?q=Empire+Garden+Beylikduzu+Istanbul" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.5"/></svg>
+            Beylikdüzü / İstanbul
+          </a>
+        </div>
+      </div>
+
+      <form class="form-card" id="reserveForm">
+        <div class="steps">
+          <div class="dot active" data-dot="1"></div>
+          <div class="dot" data-dot="2"></div>
+          <div class="dot" data-dot="3"></div>
+        </div>
+
+        <div class="step active" data-step="1">
+          <span class="small-label">Hangi alanı düşünüyorsunuz?</span>
+          <div class="option-grid" id="areaGroup">
+            <div class="option" data-value="Bahçe Terası" tabindex="0" role="button">Bahçe Terası<small>Açık hava, yeşil atmosfer</small></div>
+            <div class="option" data-value="Kahvaltı Salonu" tabindex="0" role="button">Kahvaltı Salonu<small>İç mekan, geniş masalar</small></div>
+            <div class="option" data-value="Özel Organizasyon" tabindex="0" role="button">Özel Organizasyon<small>Kalabalık gruplar için</small></div>
+          </div>
+          <div class="form-nav">
+            <span></span>
+            <button type="button" class="btn small" id="toStep2">Devam Et</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="2">
+          <span class="small-label">Tarih & saat</span>
+          <div class="field-row">
+            <div class="field"><label for="resDate">Tarih</label><input type="date" id="resDate" required></div>
+            <div class="field"><label for="resTime">Saat</label><input type="time" id="resTime" required></div>
+          </div>
+          <div class="field"><label for="resGuests">Kişi sayısı</label><input type="number" id="resGuests" min="1" max="40" placeholder="Örn. 4" required></div>
+          <div class="form-nav">
+            <button type="button" class="btn ghost small" id="toStep1b">Geri</button>
+            <button type="button" class="btn small" id="toStep3">Devam Et</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="3">
+          <span class="small-label">İletişim bilgileriniz</span>
+          <div class="field"><label for="resName">Ad Soyad</label><input type="text" id="resName" required></div>
+          <div class="field"><label for="resPhone">Telefon</label><input type="tel" id="resPhone" placeholder="05xx xxx xx xx" required></div>
+          <div class="form-nav">
+            <button type="button" class="btn ghost small" id="toStep2b">Geri</button>
+            <button type="submit" class="btn small">Rezervasyonu Gönder</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="done">
+          <div class="confirm-msg">
+            <div class="check">✓</div>
+            <h3 style="font-size:1.4rem;margin-bottom:8px;">Talebiniz alındı.</h3>
+            <p style="color:var(--charcoal-soft);font-size:0.9rem;">Ekibimiz kısa süre içinde sizi arayarak rezervasyonunuzu onaylayacak.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+  <!-- DİLEK VE ŞİKAYET -->
+  <section class="feedback" id="dilek-sikayet">
+    <div class="wrap">
+      <div class="feedback-head">
+        <div class="eyebrow">Dilek & Şikayet</div>
+        <h2>Sesinizi duyuyoruz.</h2>
+        <p>Bir öneriniz, bir şikayetiniz ya da bize iletmek istediğiniz güzel bir söz mü var? Aşağıdaki formu doldurun, ekibimiz en kısa sürede size dönsün.</p>
+      </div>
+
+      <form class="form-card" id="feedbackForm">
+        <span class="small-label">Konu başlığı</span>
+        <div class="cat-group" id="catGroup">
+          <button type="button" class="cat-btn" data-value="Öneri">Öneri</button>
+          <button type="button" class="cat-btn" data-value="Şikayet">Şikayet</button>
+          <button type="button" class="cat-btn" data-value="Teşekkür">Teşekkür</button>
+        </div>
+
+        <div class="step active" data-step="fb-form">
+          <div class="field"><label for="fbName">Ad Soyad</label><input type="text" id="fbName" required></div>
+          <div class="field-row">
+            <div class="field"><label for="fbPhone">Telefon</label><input type="tel" id="fbPhone" placeholder="05xx xxx xx xx"></div>
+            <div class="field"><label for="fbEmail">E-posta</label><input type="email" id="fbEmail" placeholder="ornek@eposta.com"></div>
+          </div>
+          <div class="field"><label for="fbMsg">Mesajınız</label><textarea id="fbMsg" rows="4" required placeholder="Bizimle paylaşmak istediklerinizi yazın..."></textarea></div>
+          <div class="form-nav">
+            <span style="font-size:0.76rem;color:var(--charcoal-soft);">Bilgileriniz yalnızca sizinle iletişime geçmek için kullanılır.</span>
+            <button type="submit" class="btn small">Gönder</button>
+          </div>
+        </div>
+
+        <div class="step" data-step="fb-done">
+          <div class="confirm-msg">
+            <div class="check">✓</div>
+            <h3 style="font-size:1.4rem;margin-bottom:8px;">Teşekkürler.</h3>
+            <p style="color:var(--charcoal-soft);font-size:0.9rem;">Mesajınız bize ulaştı, en kısa sürede dönüş yapacağız.</p>
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-col">
+      <h3>Empire Garden</h3>
+      <p>Beylikdüzü'nde zengin serpme kahvaltı ve bahçe konseptiyle misafirlerini ağırlayan, basında da adından söz ettiren bir adres.</p>
+    </div>
+    <div class="foot-col">
+      <div class="label">İletişim</div>
+      <a class="line" href="tel:+902125550202">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M6.6 10.8c1.4 2.8 3.8 5.2 6.6 6.6l2.2-2.2c.3-.3.7-.4 1-.2 1.1.4 2.3.6 3.6.6.6 0 1 .4 1 1V20c0 .6-.4 1-1 1C10.9 21 3 13.1 3 3.4c0-.6.4-1 1-1h3.4c.6 0 1 .4 1 1 0 1.3.2 2.5.6 3.6.1.4 0 .8-.3 1.1L6.6 10.8z" stroke="currentColor" stroke-width="1.5"/></svg>
+        0212 555 02 02
+      </a>
+      <a class="line" href="https://maps.google.com/?q=Empire+Garden+Beylikduzu+Istanbul" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2.4" stroke="currentColor" stroke-width="1.5"/></svg>
+        Beylikdüzü, İstanbul
+      </a>
+      <a class="line" href="https://instagram.com/empiregarden" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.5"/><circle cx="17.2" cy="6.8" r="1" fill="currentColor"/></svg>
+        @empiregarden
+      </a>
+    </div>
+    <div class="foot-col">
+      <div class="label">Kısayollar</div>
+      <a class="line" href="#basinda-biz">Basında Biz</a>
+      <a class="line" href="#reels">Instagram</a>
+      <a class="line" href="#dilek-sikayet">Dilek & Şikayet</a>
+      <a class="line" href="#reservation">Rezervasyon Yap</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <span>© 2026 Empire Garden</span>
+    <span>Beylikdüzü, İstanbul</span>
+  </div>
+</footer>
+
+<div class="sticky-bar">
+  <a class="btn ghost" href="tel:+902125550202">Hemen Ara</a>
+  <a class="btn" href="#reservation">Rezervasyon Yap</a>
+</div>
+
+<script>
+  const header = document.getElementById('site-header');
+  window.addEventListener('scroll', () => header.classList.toggle('scrolled', window.scrollY > 20));
+
+  // reservation area selection
+  const areaGroup = document.getElementById('areaGroup');
+  areaGroup.querySelectorAll('.option').forEach(opt => {
+    const select = () => { areaGroup.querySelectorAll('.option').forEach(o => o.classList.remove('selected')); opt.classList.add('selected'); };
+    opt.addEventListener('click', select);
+    opt.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' '){ e.preventDefault(); select(); } });
+  });
+
+  // reservation steps
+  const resForm = document.getElementById('reserveForm');
+  const resDots = resForm.querySelectorAll('.dot');
+  function showResStep(n){
+    resForm.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    resForm.querySelector(`[data-step="${n}"]`).classList.add('active');
+    resDots.forEach(d => d.classList.toggle('active', Number(d.dataset.dot) <= n));
+  }
+  document.getElementById('toStep2').addEventListener('click', () => {
+    if(!areaGroup.querySelector('.selected')){ areaGroup.style.outline = '2px solid var(--forest)'; return; }
+    showResStep(2);
+  });
+  document.getElementById('toStep1b').addEventListener('click', () => showResStep(1));
+  document.getElementById('toStep3').addEventListener('click', () => {
+    if(!document.getElementById('resDate').value || !document.getElementById('resTime').value || !document.getElementById('resGuests').value) return;
+    showResStep(3);
+  });
+  document.getElementById('toStep2b').addEventListener('click', () => showResStep(2));
+  resForm.addEventListener('submit', e => {
+    e.preventDefault();
+    resDots.forEach(d => d.classList.add('active'));
+    resForm.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    resForm.querySelector('[data-step="done"]').classList.add('active');
+  });
+
+  // feedback category buttons
+  const catGroup = document.getElementById('catGroup');
+  catGroup.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      catGroup.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+    });
+  });
+
+  // feedback form submit
+  const fbForm = document.getElementById('feedbackForm');
+  fbForm.addEventListener('submit', e => {
+    e.preventDefault();
+    fbForm.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    fbForm.querySelector('[data-step="fb-done"]').classList.add('active');
+  });
+
+  // reel mute/unmute toggle
+  document.querySelectorAll('.reel-mute').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.reel-card');
+      const vid = card.querySelector('video');
+      vid.muted = !vid.muted;
+      btn.style.opacity = vid.muted ? '1' : '0.7';
+    });
+  });
+
+  // autoplay fallback for mobile browsers
+  document.querySelectorAll('.reel-card video').forEach(v => {
+    v.play().catch(() => {});
+  });
+</script>
+
+</body>
+</html>
