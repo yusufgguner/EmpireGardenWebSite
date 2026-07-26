@@ -36,6 +36,9 @@
             --color-gold-dark: #9A7734;
             --color-gold-glow: rgba(197, 160, 89, 0.35);
 
+            --color-garden-script: #2F9247;
+            --color-garden-script-light: #46B563;
+
             --color-text: #19241E;
             --color-text-muted: #536358;
             --color-text-light: #84948A;
@@ -88,6 +91,14 @@
             display: block;
             max-width: 100%;
             height: auto;
+            -webkit-user-drag: none;
+            -khtml-user-drag: none;
+            -moz-user-drag: none;
+            -o-user-drag: none;
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            pointer-events: auto;
         }
 
         a {
@@ -252,34 +263,52 @@
         }
 
         .brand-logo {
-            display: flex;
+            display: inline-flex;
             flex-direction: column;
-            align-items: flex-start;
-            line-height: 0.85;
+            align-items: center;
+            line-height: 1;
+            transition: var(--transition-smooth);
+        }
+
+        .brand-logo:hover {
+            transform: translateY(-1px);
         }
 
         .logo-empire {
             font-family: var(--font-heading);
-            font-size: 1.85rem;
+            font-size: 1.95rem;
             font-weight: 700;
-            letter-spacing: 4px;
+            letter-spacing: 8px;
+            /* offset the trailing letter-spacing so the word stays optically centered */
+            text-indent: 8px;
             color: var(--color-primary);
             text-transform: uppercase;
+            line-height: 0.9;
         }
 
-        .logo-motif-svg {
-            width: 96px;
-            height: 8px;
-            margin: 3px 0;
+        .logo-wing {
+            width: 158px;
+            height: auto;
+            margin: 3px 0 0;
+            display: block;
+            color: var(--color-gold);
+        }
+
+        .brand-logo:hover .logo-wing {
+            color: var(--color-gold-light);
         }
 
         .logo-garden {
             font-family: var(--font-script);
             font-size: 1.7rem;
-            color: var(--color-gold-dark);
-            margin-left: 14px;
-            margin-top: -6px;
+            line-height: 0.85;
+            color: var(--color-garden-script);
+            margin-top: -9px;
         }
+
+        /* Light-on-dark variant (footer / dark surfaces) */
+        .brand-logo--light .logo-empire { color: var(--color-white); }
+        .brand-logo--light .logo-garden { color: var(--color-garden-script-light); }
 
         .nav-menu {
             display: flex;
@@ -454,15 +483,61 @@
             border: 2px solid var(--border-gold);
         }
 
-        .hero-image-card img {
+        .hero-slides {
+            position: relative;
             width: 100%;
-            height: 500px;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+            height: 520px;
         }
 
-        .hero-image-card:hover img {
-            transform: scale(1.04);
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.1s ease;
+            will-change: opacity;
+        }
+
+        .hero-slide.active {
+            opacity: 1;
+        }
+
+        .hero-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-slide.active img {
+            animation: heroKenBurns 7.5s ease-out forwards;
+        }
+
+        @keyframes heroKenBurns {
+            from { transform: scale(1.005); }
+            to   { transform: scale(1.075); }
+        }
+
+        .hero-dots {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            display: flex;
+            gap: 8px;
+            z-index: 3;
+        }
+
+        .hero-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            padding: 0;
+            transition: var(--transition-smooth);
+        }
+
+        .hero-dot.active {
+            background: var(--color-gold);
+            width: 24px;
         }
 
         .hero-image-overlay-bar {
@@ -627,28 +702,124 @@
             padding: 90px 0;
         }
 
+        /* Category Filter Tabs */
+        .gallery-filters {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin: 38px auto 8px;
+            max-width: 900px;
+        }
+
+        .gallery-filter-btn {
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.9rem;
+            letter-spacing: 0.3px;
+            color: var(--color-text-muted);
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            padding: 10px 22px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+        }
+
+        .gallery-filter-btn:hover {
+            color: var(--color-primary);
+            border-color: var(--border-gold);
+            transform: translateY(-2px);
+        }
+
+        .gallery-filter-btn.active {
+            color: var(--color-white);
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            box-shadow: 0 8px 22px rgba(21, 51, 36, 0.22);
+        }
+
+        .gallery-count {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--color-text-light);
+            margin-bottom: 26px;
+            letter-spacing: 0.5px;
+        }
+
+        .gallery-more-wrap {
+            text-align: center;
+            margin-top: 34px;
+        }
+
+        .gallery-more-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--color-primary);
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-gold);
+            padding: 14px 32px;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: var(--shadow-subtle);
+        }
+
+        .gallery-more-btn:hover {
+            background: var(--color-primary);
+            color: var(--color-white);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-card);
+        }
+
+        .gallery-more-btn svg {
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-more-btn.expanded svg {
+            transform: rotate(180deg);
+        }
+
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 22px;
-            margin-top: 40px;
+            gap: 18px;
+            margin-top: 6px;
         }
 
         .gallery-card {
             position: relative;
-            aspect-ratio: 4 / 3;
+            aspect-ratio: 4 / 5;
             border-radius: var(--radius-md);
             overflow: hidden;
             box-shadow: var(--shadow-subtle);
             cursor: pointer;
             border: 1px solid var(--border-subtle);
+            opacity: 1;
+            transform: scale(1);
+            transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
+                        transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .gallery-card.is-hidden {
+            display: none;
+        }
+
+        .gallery-card.is-entering {
+            opacity: 0;
+            transform: scale(0.94) translateY(12px);
         }
 
         .gallery-card img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .gallery-card:hover img {
@@ -658,18 +829,50 @@
         .gallery-hover-overlay {
             position: absolute;
             inset: 0;
-            background: rgba(10, 28, 19, 0.65);
-            backdrop-filter: blur(3px);
+            background: linear-gradient(to top, rgba(10, 28, 19, 0.82) 0%, rgba(10, 28, 19, 0.15) 45%, rgba(10, 28, 19, 0) 70%);
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--color-gold-light);
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-end;
+            padding: 16px;
+            color: var(--color-white);
             opacity: 0;
             transition: var(--transition-smooth);
         }
 
         .gallery-card:hover .gallery-hover-overlay {
             opacity: 1;
+        }
+
+        .gallery-card-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.4px;
+            color: var(--color-gold-light);
+        }
+
+        .gallery-card-zoom {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.16);
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-white);
+            transform: translateY(-6px);
+            transition: var(--transition-smooth);
+        }
+
+        .gallery-card:hover .gallery-card-zoom {
+            transform: translateY(0);
+            background: var(--color-gold);
+            color: var(--color-primary-dark);
         }
 
         /* Senior Lightbox Viewer */
@@ -718,72 +921,112 @@
             color: var(--color-primary-dark);
         }
 
+        .lightbox-nav-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--color-white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            z-index: 2;
+        }
+
+        .lightbox-nav-btn:hover {
+            background: var(--color-gold);
+            color: var(--color-primary-dark);
+        }
+
+        .lightbox-nav-btn.prev { left: 24px; }
+        .lightbox-nav-btn.next { right: 24px; }
+
+        .lightbox-counter {
+            position: absolute;
+            bottom: 26px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--color-white);
+            font-size: 0.85rem;
+            letter-spacing: 1.5px;
+            background: rgba(0, 0, 0, 0.35);
+            padding: 7px 18px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(197, 160, 89, 0.4);
+        }
+
+        @media (max-width: 640px) {
+            .lightbox-nav-btn { width: 44px; height: 44px; }
+            .lightbox-nav-btn.prev { left: 10px; }
+            .lightbox-nav-btn.next { right: 10px; }
+        }
+
         /* ==========================================================================
            7. PRESS SECTION (Refined Logos & Styling)
            ========================================================================== */
         .press-section {
-            padding: 90px 0;
+            padding: 58px 0;
             background: var(--color-surface-card);
         }
 
-        .press-grid {
-            display: grid;
-            grid-template-columns: 1.5fr 1fr 1fr;
-            gap: 28px;
-            margin-top: 44px;
+        .press-marquee {
+            margin-top: 40px;
+            overflow: hidden;
+            -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+            mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
         }
 
-        .press-featured-card {
-            background: linear-gradient(135deg, #153324 0%, #0A1C13 100%);
-            color: var(--color-white);
-            border-radius: var(--radius-md);
-            padding: 36px;
-            border: 1px solid var(--border-gold);
+        .press-marquee-track {
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            box-shadow: var(--shadow-card);
+            align-items: center;
+            gap: 50px;
+            width: max-content;
+            animation: pressScroll 40s linear infinite;
         }
 
-        .press-source-tag {
+        .press-marquee:hover .press-marquee-track {
+            animation-play-state: paused;
+        }
+
+        @keyframes pressScroll {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+
+        .press-logo {
+            flex-shrink: 0;
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(197, 160, 89, 0.18);
-            color: var(--color-gold-light);
-            padding: 6px 16px;
-            border-radius: var(--radius-full);
-            font-size: 0.85rem;
-            font-weight: 700;
-            margin-bottom: 24px;
-        }
-
-        .press-headline {
-            font-family: var(--font-heading);
-            font-size: 1.75rem;
-            line-height: 1.3;
-            margin-bottom: 16px;
-        }
-
-        .press-body {
-            font-size: 0.975rem;
-            color: rgba(255, 255, 255, 0.82);
-            line-height: 1.65;
-            margin-bottom: 28px;
-        }
-
-        .press-placeholder-card {
-            border: 2px dashed rgba(21, 51, 36, 0.16);
-            background: transparent;
-            border-radius: var(--radius-md);
-            padding: 30px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
-            text-align: center;
-            color: var(--color-text-muted);
-            min-height: 240px;
+            height: 62px;
+            padding: 0 6px;
+            opacity: 0.82;
+            transition: var(--transition-smooth);
+        }
+
+        .press-logo img {
+            height: 40px;
+            width: auto;
+            max-width: 200px;
+            object-fit: contain;
+        }
+
+        .press-logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--color-text);
+            white-space: nowrap;
+        }
+
+        .press-logo:hover {
+            opacity: 1;
+            transform: translateY(-3px);
         }
 
         /* ==========================================================================
@@ -888,6 +1131,7 @@
             backdrop-filter: blur(8px);
             border: 1px solid rgba(255,255,255,0.1);
         }
+
 
         /* ==========================================================================
            9. WIZARD RESERVATION (3 STEPS)
@@ -1168,6 +1412,67 @@
             padding-left: 4px;
         }
 
+        .footer-address-link {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.82);
+            line-height: 1.5;
+            transition: var(--transition-fast);
+        }
+
+        .footer-address-link svg {
+            color: var(--color-gold);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .footer-address-link:hover {
+            color: var(--color-gold-light);
+        }
+
+        /* Embedded map */
+        .footer-map {
+            position: relative;
+            display: block;
+            margin: 40px 0 8px;
+            height: 300px;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 2px solid var(--border-gold);
+            box-shadow: var(--shadow-float);
+        }
+
+        .footer-map iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            filter: grayscale(0.2) contrast(1.05);
+        }
+
+        .footer-map-pin {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 9px 16px;
+            border-radius: var(--radius-full);
+            border: 1px solid var(--border-gold);
+            box-shadow: var(--shadow-card);
+            pointer-events: none;
+        }
+
+        .footer-map-pin svg {
+            color: var(--color-gold);
+        }
+
         .footer-bottom-bar {
             padding-top: 32px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -1207,6 +1512,177 @@
         }
 
         /* ==========================================================================
+           12b. FLOATING WHATSAPP + REVIEW POPUP
+           ========================================================================== */
+        .wa-wrap {
+            position: fixed;
+            left: 24px;
+            bottom: 26px;
+            z-index: 1500;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .wa-float {
+            order: 1;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #25D366;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.45);
+            animation: waPulse 2.6s infinite;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .wa-float:hover {
+            transform: scale(1.08);
+        }
+
+        @keyframes waPulse {
+            0%   { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5); }
+            70%  { box-shadow: 0 0 0 16px rgba(37, 211, 102, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+        }
+
+        .wa-bubble {
+            order: 2;
+            position: relative;
+            max-width: 240px;
+            background: var(--color-white);
+            color: var(--color-text);
+            padding: 13px 30px 13px 16px;
+            border-radius: 14px;
+            box-shadow: var(--shadow-float);
+            font-size: 0.85rem;
+            line-height: 1.4;
+            opacity: 0;
+            transform: translateX(-10px) scale(0.95);
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .wa-bubble.show {
+            opacity: 1;
+            transform: translateX(0) scale(1);
+            pointer-events: auto;
+        }
+
+        .wa-bubble::before {
+            content: '';
+            position: absolute;
+            left: -7px;
+            bottom: 16px;
+            width: 14px;
+            height: 14px;
+            background: var(--color-white);
+            transform: rotate(45deg);
+            border-radius: 2px;
+        }
+
+        .wa-bubble strong {
+            display: block;
+            color: var(--color-primary);
+            margin-bottom: 2px;
+        }
+
+        .wa-bubble-close {
+            position: absolute;
+            top: 5px;
+            right: 9px;
+            font-size: 1.1rem;
+            color: var(--color-text-light);
+            background: none;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .review-pop {
+            position: fixed;
+            right: 24px;
+            bottom: 26px;
+            z-index: 1500;
+            width: 330px;
+            max-width: calc(100vw - 36px);
+            background: var(--color-bg-elevated);
+            border: 1px solid var(--border-subtle);
+            border-top: 3px solid var(--color-gold);
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-float);
+            padding: 20px 20px 22px;
+            opacity: 0;
+            transform: translateY(26px);
+            pointer-events: none;
+            transition: var(--transition-smooth);
+        }
+
+        .review-pop.show {
+            opacity: 1;
+            transform: translateY(0);
+            pointer-events: auto;
+        }
+
+        .review-pop-close {
+            position: absolute;
+            top: 10px;
+            right: 13px;
+            font-size: 1.35rem;
+            color: var(--color-text-light);
+            background: none;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .review-pop-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 10px;
+        }
+
+        .review-pop-head strong {
+            font-size: 0.98rem;
+            color: var(--color-text);
+            display: block;
+        }
+
+        .review-pop-stars {
+            color: #FBBC05;
+            letter-spacing: 3px;
+            font-size: 0.95rem;
+            margin-top: 2px;
+        }
+
+        .review-pop-text {
+            font-size: 0.86rem;
+            color: var(--color-text-muted);
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .review-pop-btn {
+            display: block;
+            text-align: center;
+            background: var(--color-primary);
+            color: var(--color-white);
+            font-weight: 600;
+            font-size: 0.9rem;
+            padding: 12px;
+            border-radius: var(--radius-full);
+            transition: var(--transition-smooth);
+        }
+
+        .review-pop-btn:hover {
+            background: var(--color-primary-light);
+            transform: translateY(-2px);
+        }
+
+        /* ==========================================================================
            13. RESPONSIVE MEDIA QUERIES
            ========================================================================== */
         @media (max-width: 1024px) {
@@ -1224,7 +1700,7 @@
             }
 
             .press-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             .reels-wrapper-grid {
@@ -1249,12 +1725,20 @@
                 font-size: 2.6rem;
             }
 
+            .hero-slides {
+                height: 400px;
+            }
+
             .display-title {
                 font-size: 2.2rem;
             }
 
             .gallery-grid {
                 grid-template-columns: repeat(2, 1fr);
+            }
+
+            .press-grid {
+                grid-template-columns: 1fr;
             }
 
             .area-grid {
@@ -1276,6 +1760,29 @@
             body {
                 padding-bottom: 75px;
             }
+
+            /* Lift floating widgets above the sticky bar on mobile */
+            .wa-wrap {
+                left: 16px;
+                bottom: 90px;
+            }
+
+            .wa-bubble {
+                display: none;
+            }
+
+            .wa-float {
+                width: 54px;
+                height: 54px;
+            }
+
+            .review-pop {
+                right: 12px;
+                left: 12px;
+                bottom: 158px;
+                width: auto;
+                max-width: none;
+            }
         }
     </style>
 </head>
@@ -1290,8 +1797,10 @@
                 <!-- Brand Logo -->
                 <a href="#" class="brand-logo" aria-label="Empire Garden Ana Sayfa">
                     <span class="logo-empire">EMPIRE</span>
-                    <svg class="logo-motif-svg" viewBox="0 0 100 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 6 C20 0, 40 12, 60 6 C80 0, 90 8, 100 6" stroke="#C5A059" stroke-width="2.5" stroke-linecap="round"/>
+                    <svg class="logo-wing" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 5 C 38 5, 66 9, 92 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M194 5 C 162 5, 134 9, 108 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M100 3.5 L102.2 9 L107.5 11.5 L102.2 14 L100 19.5 L97.8 14 L92.5 11.5 L97.8 9 Z" fill="currentColor"/>
                     </svg>
                     <span class="logo-garden">Garden</span>
                 </a>
@@ -1311,7 +1820,7 @@
 
                 <!-- Header Actions -->
                 <div class="header-actions">
-                    <a href="tel:+902128550000" class="phone-quick-btn" aria-label="Bizi Arayın">
+                    <a href="tel:+905304279404" class="phone-quick-btn" aria-label="Bizi Arayın">
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
                     </a>
                     <a href="#rezervasyon" class="btn-luxury btn-luxury-primary ambient-glow-btn">Rezervasyon Yap</a>
@@ -1334,6 +1843,11 @@
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
                 <div class="brand-logo">
                     <span class="logo-empire">EMPIRE</span>
+                    <svg class="logo-wing" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                        <path d="M6 5 C 38 5, 66 9, 92 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M194 5 C 162 5, 134 9, 108 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                        <path d="M100 3.5 L102.2 9 L107.5 11.5 L102.2 14 L100 19.5 L97.8 14 L92.5 11.5 L97.8 9 Z" fill="currentColor"/>
+                    </svg>
                     <span class="logo-garden">Garden</span>
                 </div>
                 <button id="closeDrawerBtn" style="font-size: 2rem; color: var(--color-primary);">&times;</button>
@@ -1349,7 +1863,7 @@
             </ul>
         </div>
         <div style="margin-top: 30px;">
-            <a href="tel:+902128550000" class="btn-luxury btn-luxury-gold" style="width: 100%;">Hemen Ara: 0212 855 00 00</a>
+            <a href="tel:+905304279404" class="btn-luxury btn-luxury-gold" style="width: 100%;">Hemen Ara: 0530 427 94 04</a>
         </div>
     </div>
 
@@ -1374,21 +1888,29 @@
                             <a href="#rezervasyon" class="btn-luxury btn-luxury-primary ambient-glow-btn">
                                 Masa Rezervasyonu Yap
                             </a>
-                            <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn-luxury btn-luxury-outline">
+                            <a href="https://www.google.com/maps/dir/?api=1&destination=Empire%20Garden%20S%C3%B6%C4%9F%C3%BCt%20Soka%C4%9F%C4%B1%20No%3A16%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul" target="_blank" rel="noopener" class="btn-luxury btn-luxury-outline">
                                 <svg class="icon-svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
                                 Yol Tarifi Al
                             </a>
                         </div>
                     </div>
 
-                    <!-- Visual Block -->
+                    <!-- Visual Block: auto-rotating premium slideshow -->
                     <div class="hero-image-card">
-                        <img src="assets/hero_real_venue.jpg" alt="Empire Garden Gerçek Mekan ve Teras Görüntüsü" width="600" height="500" loading="eager">
+                        <div class="hero-slides" id="heroSlides">
+                            <div class="hero-slide active"><img src="assets/web/IMG_5915.jpg" alt="Empire Garden akşam bahçe atmosferi" loading="eager"></div>
+                            <div class="hero-slide"><img src="assets/web/IMG_5480.jpg" alt="Empire Garden serpme kahvaltı" loading="lazy"></div>
+                            <div class="hero-slide"><img src="assets/web/IMG_5882.jpg" alt="Empire Garden gurme burger" loading="lazy"></div>
+                            <div class="hero-slide"><img src="assets/web/IMG_5560.jpg" alt="Empire Garden soğuk içecekler" loading="lazy"></div>
+                            <div class="hero-slide"><img src="assets/web/IMG_5559.jpg" alt="Empire Garden nargile keyfi" loading="lazy"></div>
+                            <div class="hero-slide"><img src="assets/web/IMG_5916.jpg" alt="Empire Garden fener ışıklı akşam" loading="lazy"></div>
+                        </div>
+                        <div class="hero-dots" id="heroDots"></div>
                         <div class="hero-image-overlay-bar">
                             <svg class="icon-svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#C5A059" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
                             <div>
-                                <strong style="display: block; font-size: 0.95rem;">Gerçek Mekan Atmosferi</strong>
-                                <span style="font-size: 0.825rem; opacity: 0.85;">Sıcak fener ışıkları ve yeşil kadife oturma grupları</span>
+                                <strong id="heroCapTitle" style="display: block; font-size: 0.95rem;">Bahçe Atmosferi</strong>
+                                <span id="heroCapSub" style="font-size: 0.825rem; opacity: 0.85;">Fener ışıkları eşliğinde yeşillikler içinde huzur</span>
                             </div>
                         </div>
                     </div>
@@ -1424,7 +1946,7 @@
                             <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
                         </div>
                         <div>
-                            <div class="feature-title">Ücretsiz Vale Hizmeti</div>
+                            <div class="feature-title">Vale Hizmeti</div>
                             <div class="feature-sub">Güvenli ve konforlu otopark</div>
                         </div>
                     </div>
@@ -1459,7 +1981,7 @@
             <div class="container">
                 <div class="about-grid">
                     <div class="about-image-card">
-                        <img src="assets/breakfast_spread.jpg" alt="Empire Garden Serpme Kahvaltı Masası" class="about-main-photo" loading="lazy">
+                        <img src="assets/web/IMG_5480.jpg" alt="Empire Garden Serpme Kahvaltı Masası" class="about-main-photo" loading="lazy">
                         <div class="about-floating-quote">
                             <p>"Misafirlerimize sadece lezzetli bir kahvaltı değil, şehrin gürültüsünden uzak doğayla baş başa bir huzur vadediyoruz."</p>
                             <span class="quote-signature">— Empire Garden Kurucu Ekibi</span>
@@ -1506,68 +2028,34 @@
         <section class="gallery-section" id="galeri">
             <div class="container">
                 <div style="text-align: center;">
-                    <span class="script-tag">Mekanımızdan Kareler</span>
-                    <h2 class="display-title">Empire Garden Foto Galeri</h2>
-                    <p class="display-subtitle" style="margin: 0 auto;">Bahçemizden, kahvaltı sunumlarımızdan ve akşam ambiyansımızdan gerçek fotoğraflar.</p>
+                    <span class="script-tag">Lezzet & Atmosfer</span>
+                    <h2 class="display-title">Empire Garden Vitrini</h2>
+                    <p class="display-subtitle" style="margin: 0 auto;">Serpme kahvaltıdan gurme yemeklere, buz gibi içeceklerden nargile keyfine ve bahçe atmosferimize — kategorilere göz atın.</p>
                 </div>
 
-                <div class="gallery-grid">
-                    <div class="gallery-card" onclick="openLightbox('assets/edited photos/IMG_5537.JPG')">
-                        <img src="assets/edited photos/IMG_5537.JPG" alt="Empire Garden Kare 1" loading="lazy">
-                        <div class="gallery-hover-overlay">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-card" onclick="openLightbox('assets/edited photos/IMG_5538.JPG')">
-                        <img src="assets/edited photos/IMG_5538.JPG" alt="Empire Garden Kare 2" loading="lazy">
-                        <div class="gallery-hover-overlay">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-card" onclick="openLightbox('assets/edited photos/IMG_5540.JPG')">
-                        <img src="assets/edited photos/IMG_5540.JPG" alt="Empire Garden Kare 3" loading="lazy">
-                        <div class="gallery-hover-overlay">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-card" onclick="openLightbox('assets/edited photos/IMG_5542.JPG')">
-                        <img src="assets/edited photos/IMG_5542.JPG" alt="Empire Garden Kare 4" loading="lazy">
-                        <div class="gallery-hover-overlay">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-card" onclick="openLightbox('assets/edited photos/IMG_5543.JPG')">
-                        <img src="assets/edited photos/IMG_5543.JPG" alt="Empire Garden Kare 5" loading="lazy">
-                        <div class="gallery-hover-overlay">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-card" onclick="openLightbox('assets/edited photos/IMG_5544.JPG')">
-                        <img src="assets/edited photos/IMG_5544.JPG" alt="Empire Garden Kare 6" loading="lazy">
-                        <div class="gallery-hover-overlay">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-card" onclick="openLightbox('assets/edited photos/IMG_5545.JPG')">
-                        <img src="assets/edited photos/IMG_5545.JPG" alt="Empire Garden Kare 7" loading="lazy">
-                        <div class="gallery-hover-overlay">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        </div>
-                    </div>
-                    <div class="gallery-card" onclick="openLightbox('assets/edited photos/IMG_5546.JPG')">
-                        <img src="assets/edited photos/IMG_5546.JPG" alt="Empire Garden Kare 8" loading="lazy">
-                        <div class="gallery-hover-overlay">
-                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
-                        </div>
-                    </div>
+                <div class="gallery-filters" id="galleryFilters"></div>
+                <div class="gallery-count" id="galleryCount"></div>
+                <div class="gallery-grid" id="galleryGrid"></div>
+                <div class="gallery-more-wrap">
+                    <button class="gallery-more-btn" id="galleryMoreBtn">
+                        <span id="galleryMoreLabel">Daha Fazla Göster</span>
+                        <svg id="galleryMoreIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+                    </button>
                 </div>
             </div>
         </section>
 
         <!-- Lightbox Backdrop Modal -->
-        <div class="lightbox-backdrop" id="lightboxModal" onclick="closeLightbox()">
-            <button class="lightbox-close-btn" aria-label="Kapat">&times;</button>
-            <img id="lightboxImg" src="" alt="Büyük Görünüm">
+        <div class="lightbox-backdrop" id="lightboxModal">
+            <button class="lightbox-close-btn" aria-label="Kapat" onclick="closeLightbox()">&times;</button>
+            <button class="lightbox-nav-btn prev" aria-label="Önceki" onclick="lightboxStep(-1)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+            </button>
+            <img id="lightboxImg" src="" alt="Büyük Görünüm" onclick="event.stopPropagation()">
+            <button class="lightbox-nav-btn next" aria-label="Sonraki" onclick="lightboxStep(1)">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+            </button>
+            <div class="lightbox-counter" id="lightboxCounter"></div>
         </div>
 
         <!-- ==========================================================================
@@ -1581,37 +2069,9 @@
                     <p class="display-subtitle" style="margin: 0 auto;">Empire Garden'ın lezzeti, konsepti ve atmosferi hakkında basında çıkan öne çıkan haberler.</p>
                 </div>
 
-                <div class="press-grid">
-                    <!-- Featured Article -->
-                    <div class="press-featured-card">
-                        <div>
-                            <span class="press-source-tag">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
-                                TNT Haber Özel Görünüm
-                            </span>
-                            <h3 class="press-headline">"Beylikdüzü'nün En Gözde Bahçe Mekanı: Empire Garden İlgi Odağı"</h3>
-                            <p class="press-body">
-                                TNT Haber incelemesine göre; yeşillikler içindeki atmosferi, ünlü isimleri ağırlayan konsepti ve zengin serpme kahvaltısıyla Empire Garden, İstanbul'un farklı semtlerinden gelen lezzet tutkunlarını buluşturuyor.
-                            </p>
-                        </div>
-                        <a href="https://tnthaber.com" target="_blank" rel="noopener" class="btn-luxury btn-luxury-gold" style="align-self: flex-start;">
-                            Haberi Kaynağında Oku ↗
-                        </a>
-                    </div>
-
-                    <!-- Placeholder 1 -->
-                    <div class="press-placeholder-card">
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#536358" stroke-width="1.5" style="margin-bottom: 14px;"><path d="M19 20H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h10l5 5v11a2 2 0 0 1-2 2z"/><polyline points="14 4 14 9 19 9"/></svg>
-                        <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--color-primary); margin-bottom: 6px;">Gurme Rehberi İncelemesi</h4>
-                        <p style="font-size: 0.85rem;">Yakında eklenecek basın yayını</p>
-                    </div>
-
-                    <!-- Placeholder 2 -->
-                    <div class="press-placeholder-card">
-                        <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="#536358" stroke-width="1.5" style="margin-bottom: 14px;"><rect x="2" y="7" width="20" height="15" rx="2" ry="2"/><polyline points="17 2 12 7 7 2"/></svg>
-                        <h4 style="font-size: 1.05rem; font-weight: 700; color: var(--color-primary); margin-bottom: 6px;">TV Lezzet Programı</h4>
-                        <p style="font-size: 0.85rem;">Yakında eklenecek televizyon çekimi</p>
-                    </div>
+                <!-- Auto-scrolling press logo marquee (source name wordmarks) -->
+                <div class="press-marquee">
+                    <div class="press-marquee-track" id="pressTrack"></div>
                 </div>
             </div>
         </section>
@@ -1627,23 +2087,23 @@
                         <h2 class="display-title">Instagram Reels</h2>
                         <p class="display-subtitle">Mekanımızdan ve lezzetlerimizden öne çıkan 9:16 dikey reels videoları.</p>
                     </div>
-                    <a href="https://instagram.com" target="_blank" rel="noopener" class="btn-luxury btn-luxury-outline">
+                    <a href="https://www.instagram.com/empiregarden_34/" target="_blank" rel="noopener" class="btn-luxury btn-luxury-outline">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-                        @empiregarden.beylikduzu Takip Et
+                        @empiregarden_34 Takip Et
                     </a>
                 </div>
 
                 <div class="reels-wrapper-grid">
                     <!-- Reel 1 -->
                     <div class="reels-player-card">
-                        <video id="reelVideo1" poster="assets/hero_real_venue.jpg" loop muted playsinline autoplay preload="metadata">
+                        <video id="reelVideo1" poster="assets/web/IMG_5915.jpg" loop muted playsinline autoplay preload="metadata">
                             <source src="assets/video/reels2-3.mp4" type="video/mp4">
                         </video>
                         <div class="reels-player-overlay">
                             <div class="reels-top-bar">
                                 <div class="reels-user-badge">
                                     <div class="reels-avatar-circle">EG</div>
-                                    <span>empiregarden</span>
+                                    <span>empiregarden_34</span>
                                 </div>
                                 <button class="reels-audio-toggle" onclick="toggleSound('reelVideo1', this)">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
@@ -1658,14 +2118,14 @@
 
                     <!-- Reel 2 -->
                     <div class="reels-player-card">
-                        <video id="reelVideo2" poster="assets/breakfast_spread.jpg" loop muted playsinline autoplay preload="metadata">
+                        <video id="reelVideo2" poster="assets/web/IMG_5480.jpg" loop muted playsinline autoplay preload="metadata">
                             <source src="assets/video/reels3.mp4" type="video/mp4">
                         </video>
                         <div class="reels-player-overlay">
                             <div class="reels-top-bar">
                                 <div class="reels-user-badge">
                                     <div class="reels-avatar-circle">EG</div>
-                                    <span>empiregarden</span>
+                                    <span>empiregarden_34</span>
                                 </div>
                                 <button class="reels-audio-toggle" onclick="toggleSound('reelVideo2', this)">
                                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><line x1="23" y1="9" x2="17" y2="15"/><line x1="17" y1="9" x2="23" y2="15"/></svg>
@@ -1678,6 +2138,7 @@
                         </div>
                     </div>
                 </div>
+
             </div>
         </section>
 
@@ -1899,9 +2360,14 @@
             <div class="footer-grid">
                 <!-- Brand Info -->
                 <div class="footer-brand">
-                    <div class="brand-logo">
-                        <span class="logo-empire" style="color: var(--color-white);">EMPIRE</span>
-                        <span class="logo-garden" style="color: var(--color-gold);">Garden</span>
+                    <div class="brand-logo brand-logo--light">
+                        <span class="logo-empire">EMPIRE</span>
+                        <svg class="logo-wing" viewBox="0 0 200 20" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                            <path d="M6 5 C 38 5, 66 9, 92 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M194 5 C 162 5, 134 9, 108 12.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                            <path d="M100 3.5 L102.2 9 L107.5 11.5 L102.2 14 L100 19.5 L97.8 14 L92.5 11.5 L97.8 9 Z" fill="currentColor"/>
+                        </svg>
+                        <span class="logo-garden">Garden</span>
                     </div>
                     <p>
                         Beylikdüzü'nde doğayla iç içe açık hava bahçe terası, zengin serpme kahvaltısı ve eşsiz akşam ambiyansıyla hizmetinizdeyiz.
@@ -1935,17 +2401,30 @@
                 <!-- Contact & Location -->
                 <div>
                     <h4 class="footer-col-title">İletişim & Adres</h4>
-                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 12px;">
-                        📍 Cumhuriyet Mah. Atatürk Bulvarı No:42, Beylikdüzü / İstanbul
+                    <a href="https://www.google.com/maps/search/?api=1&query=Empire%20Garden%20S%C3%B6%C4%9F%C3%BCt%20Soka%C4%9F%C4%B1%20No%3A16%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul" target="_blank" rel="noopener" class="footer-address-link">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                        <span>Cumhuriyet, Söğüt Sokağı No:16 D:4, 34520 Beylikdüzü / İstanbul</span>
+                    </a>
+                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin: 14px 0 18px;">
+                        📞 Telefon: <a href="tel:+905304279404" style="color: var(--color-gold);">0530 427 94 04</a>
                     </p>
-                    <p style="font-size: 0.9rem; color: rgba(255,255,255,0.8); margin-bottom: 18px;">
-                        📞 Telefon: <a href="tel:+902128550000" style="color: var(--color-gold);">0212 855 00 00</a>
-                    </p>
-                    <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn-luxury btn-luxury-gold" style="width: 100%; font-size: 0.85rem;">
-                        Google Maps'te Aç ↗
+                    <a href="https://www.google.com/maps/dir/?api=1&destination=Empire%20Garden%20S%C3%B6%C4%9F%C3%BCt%20Soka%C4%9F%C4%B1%20No%3A16%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul" target="_blank" rel="noopener" class="btn-luxury btn-luxury-gold" style="width: 100%; font-size: 0.85rem;">
+                        Yol Tarifi Al ↗
                     </a>
                 </div>
             </div>
+
+            <!-- Embedded Map -->
+            <a class="footer-map" href="https://www.google.com/maps/search/?api=1&query=Empire%20Garden%20S%C3%B6%C4%9F%C3%BCt%20Soka%C4%9F%C4%B1%20No%3A16%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul" target="_blank" rel="noopener" aria-label="Empire Garden konumunu Google Maps'te aç">
+                <iframe
+                    title="Empire Garden Konum"
+                    src="https://maps.google.com/maps?q=Empire%20Garden%20S%C3%B6%C4%9F%C3%BCt%20Soka%C4%9F%C4%B1%20No%3A16%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul&z=16&output=embed"
+                    loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <span class="footer-map-pin">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                    Haritada Aç
+                </span>
+            </a>
 
             <!-- Footer Bottom -->
             <div class="footer-bottom-bar">
@@ -1960,13 +2439,47 @@
          ========================================================================== -->
     <div class="mobile-sticky-bar">
         <div class="sticky-bar-inner">
-            <a href="tel:+902128550000" class="btn-luxury btn-luxury-outline" style="border-color: var(--color-gold); color: var(--color-white);">
+            <a href="tel:+905304279404" class="btn-luxury btn-luxury-outline" style="border-color: var(--color-gold); color: var(--color-white);">
                 Hemen Ara
             </a>
             <a href="#rezervasyon" class="btn-luxury btn-luxury-gold">
                 Rezervasyon Yap
             </a>
         </div>
+    </div>
+
+    <!-- ==========================================================================
+         FLOATING WHATSAPP (bottom-left) + prompt bubble
+         ========================================================================== -->
+    <div class="wa-wrap">
+        <div class="wa-bubble" id="waBubble">
+            <button class="wa-bubble-close" id="waBubbleClose" aria-label="Kapat">&times;</button>
+            <strong>Merhaba! 👋</strong>
+            <span>Rezervasyon için WhatsApp'tan yazın, hemen dönelim.</span>
+        </div>
+        <a class="wa-float" id="waFloat"
+           href="https://wa.me/905304279404?text=Merhaba%2C%20Empire%20Garden'da%20rezervasyon%20yapmak%20istiyorum.%20Bilgi%20alabilir%20miyim%3F"
+           target="_blank" rel="noopener" aria-label="WhatsApp ile rezervasyon">
+            <svg width="30" height="30" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c0-5.445 4.436-9.88 9.888-9.88 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.445-4.437 9.88-9.885 9.88m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0 0 20.885 3.488"/></svg>
+        </a>
+    </div>
+
+    <!-- ==========================================================================
+         GOOGLE REVIEW POPUP (bottom-right)
+         ========================================================================== -->
+    <div class="review-pop" id="reviewPop">
+        <button class="review-pop-close" id="reviewPopClose" aria-label="Kapat">&times;</button>
+        <div class="review-pop-head">
+            <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.27-4.74 3.27-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z"/><path fill="#FBBC05" d="M5.84 14.1a6.6 6.6 0 0 1 0-4.2V7.06H2.18a11 11 0 0 0 0 9.88l3.66-2.84z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z"/></svg>
+            <div>
+                <strong>Empire Garden'ı beğendiniz mi?</strong>
+                <div class="review-pop-stars">★★★★★</div>
+            </div>
+        </div>
+        <p class="review-pop-text">Google'da bize 5 yıldız vererek destek olun — bir tıkla!</p>
+        <a class="review-pop-btn" href="https://www.google.com/maps/search/?api=1&query=Empire%20Garden%20S%C3%B6%C4%9F%C3%BCt%20Soka%C4%9F%C4%B1%20No%3A16%20Beylikd%C3%BCz%C3%BC%20%C4%B0stanbul" target="_blank" rel="noopener">
+            Google'da Puan Ver ↗
+        </a>
     </div>
 
     <!-- ==========================================================================
@@ -2010,18 +2523,298 @@
             link.addEventListener('click', closeDrawer);
         });
 
-        // 3. Lightbox Gallery Logic
+        // 3. Categorized Gallery Showcase + Lightbox
+        const GALLERY_CATS = [
+            { id: 'all',       label: 'Tümü' },
+            { id: 'mekan',     label: 'Mekan & Bahçe' },
+            { id: 'kahvalti',  label: 'Serpme Kahvaltı' },
+            { id: 'yemekler',  label: 'Yemekler' },
+            { id: 'icecekler', label: 'Soğuk İçecekler' },
+            { id: 'tatlilar',  label: 'Tatlılar' },
+            { id: 'nargile',   label: 'Nargile' }
+        ];
+        const CAT_LABEL = Object.fromEntries(GALLERY_CATS.map(c => [c.id, c.label]));
+
+        // Curated photo manifest (category -> IMG numbers). One representative per product;
+        // duplicates, TV and pet photos removed. Optimized versions live in assets/web/.
+        const GALLERY_PHOTOS = {
+            mekan:     [5915, 5916, 5917, 5919, 5555, 5910],
+            kahvalti:  [5480, 5495, 5486, 5478, 5482],
+            yemekler:  [5894, 5889, 5500, 5514, 5511, 5517],
+            icecekler: [5880, 5533, 5546, 5534, 5560, 5914],
+            tatlilar:  [5906, 5540, 5543, 5902, 5904, 5908, 5905],
+            nargile:   [5557]
+        };
+
+        // Flatten into a single ordered list of {src, cat}
+        const GALLERY_ITEMS = [];
+        Object.keys(GALLERY_PHOTOS).forEach(cat => {
+            GALLERY_PHOTOS[cat].forEach(n => {
+                GALLERY_ITEMS.push({ src: 'assets/web/IMG_' + n + '.jpg', cat });
+            });
+        });
+
+        const galleryGrid = document.getElementById('galleryGrid');
+        const galleryFilters = document.getElementById('galleryFilters');
+        const galleryCount = document.getElementById('galleryCount');
+        let activeCat = 'all';
+
+        // Build filter tabs
+        GALLERY_CATS.forEach(c => {
+            const btn = document.createElement('button');
+            btn.className = 'gallery-filter-btn' + (c.id === 'all' ? ' active' : '');
+            btn.textContent = c.label;
+            btn.dataset.cat = c.id;
+            btn.addEventListener('click', () => filterGallery(c.id));
+            galleryFilters.appendChild(btn);
+        });
+
+        // Build all cards once
+        GALLERY_ITEMS.forEach((item, i) => {
+            const card = document.createElement('div');
+            card.className = 'gallery-card';
+            card.dataset.cat = item.cat;
+            card.dataset.index = i;
+            card.innerHTML =
+                '<img src="' + item.src + '" alt="Empire Garden - ' + CAT_LABEL[item.cat] + '" loading="lazy">' +
+                '<div class="gallery-card-zoom"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>' +
+                '<div class="gallery-hover-overlay"><span class="gallery-card-tag">' + CAT_LABEL[item.cat] + '</span></div>';
+            card.addEventListener('click', () => openLightbox(i));
+            galleryGrid.appendChild(card);
+        });
+
+        // Initially only the first block (Mekan & Bahçe) is shown in the "Tümü" view;
+        // the rest is revealed with the "Daha Fazla Göster" button.
+        const INITIAL_COUNT = GALLERY_PHOTOS.mekan.length;
+        let galleryExpanded = false;
+        const moreBtn = document.getElementById('galleryMoreBtn');
+        const moreLabel = document.getElementById('galleryMoreLabel');
+
+        function filterGallery(cat) {
+            activeCat = cat;
+            galleryFilters.querySelectorAll('.gallery-filter-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.cat === cat);
+            });
+
+            let matchPos = 0, shown = 0, totalMatch = 0;
+            galleryGrid.querySelectorAll('.gallery-card').forEach(card => {
+                const match = (cat === 'all' || card.dataset.cat === cat);
+                if (!match) { card.classList.add('is-hidden'); return; }
+                totalMatch++;
+                const withinLimit = (cat !== 'all') || galleryExpanded || (matchPos < INITIAL_COUNT);
+                matchPos++;
+                if (withinLimit) {
+                    card.classList.remove('is-hidden');
+                    card.classList.add('is-entering');
+                    shown++;
+                    requestAnimationFrame(() => requestAnimationFrame(() => card.classList.remove('is-entering')));
+                } else {
+                    card.classList.add('is-hidden');
+                }
+            });
+
+            galleryCount.textContent = (shown < totalMatch)
+                ? shown + ' / ' + totalMatch + ' fotoğraf'
+                : totalMatch + ' fotoğraf';
+
+            // Toggle the "show more" button (only meaningful in the "Tümü" view)
+            if (cat === 'all' && totalMatch > INITIAL_COUNT) {
+                moreBtn.style.display = 'inline-flex';
+                moreBtn.classList.toggle('expanded', galleryExpanded);
+                moreLabel.textContent = galleryExpanded ? 'Daha Az Göster' : 'Daha Fazla Göster';
+            } else {
+                moreBtn.style.display = 'none';
+            }
+        }
+
+        moreBtn.addEventListener('click', () => {
+            galleryExpanded = !galleryExpanded;
+            filterGallery('all');
+            if (!galleryExpanded) {
+                document.getElementById('galeri').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+
+        // Lightbox with prev/next scoped to current filter
         const lightboxModal = document.getElementById('lightboxModal');
         const lightboxImg = document.getElementById('lightboxImg');
+        const lightboxCounter = document.getElementById('lightboxCounter');
+        let lightboxList = [];
+        let lightboxPos = 0;
 
-        function openLightbox(src) {
-            lightboxImg.src = src;
+        function openLightbox(index) {
+            // Build the active list (respecting current filter) from full-size originals
+            lightboxList = GALLERY_ITEMS
+                .map((it, i) => ({ i, it }))
+                .filter(o => activeCat === 'all' || o.it.cat === activeCat);
+            lightboxPos = lightboxList.findIndex(o => o.i === index);
+            if (lightboxPos < 0) lightboxPos = 0;
+            renderLightbox();
             lightboxModal.classList.add('active');
+        }
+
+        function renderLightbox() {
+            const cur = lightboxList[lightboxPos];
+            // Use higher-res original in the lightbox for detail
+            const webSrc = cur.it.src;
+            lightboxImg.src = webSrc;
+            lightboxCounter.textContent = CAT_LABEL[cur.it.cat] + '  ·  ' + (lightboxPos + 1) + ' / ' + lightboxList.length;
+        }
+
+        function lightboxStep(dir) {
+            if (!lightboxList.length) return;
+            lightboxPos = (lightboxPos + dir + lightboxList.length) % lightboxList.length;
+            renderLightbox();
         }
 
         function closeLightbox() {
             lightboxModal.classList.remove('active');
         }
+
+        lightboxModal.addEventListener('click', (e) => {
+            if (e.target === lightboxModal) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (!lightboxModal.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            else if (e.key === 'ArrowLeft') lightboxStep(-1);
+            else if (e.key === 'ArrowRight') lightboxStep(1);
+        });
+
+        // Initial render
+        filterGallery('all');
+
+        // 3b. Hero Slideshow (auto-rotating crossfade)
+        (function initHeroSlideshow() {
+            const slides = Array.from(document.querySelectorAll('#heroSlides .hero-slide'));
+            const dotsWrap = document.getElementById('heroDots');
+            const capTitle = document.getElementById('heroCapTitle');
+            const capSub = document.getElementById('heroCapSub');
+            if (!slides.length || !dotsWrap) return;
+
+            const captions = [
+                { t: 'Bahçe Atmosferi',   s: 'Fener ışıkları eşliğinde yeşillikler içinde huzur' },
+                { t: 'Serpme Kahvaltı',   s: 'Onlarca çeşit yöresel lezzet sofranızda' },
+                { t: 'Gurme Lezzetler',   s: 'El yapımı burgerler ve sıcak yemekler' },
+                { t: 'Soğuk İçecekler',   s: 'Buz gibi limonatalar ve özel kahveler' },
+                { t: 'Nargile Keyfi',     s: 'Bahçede eşsiz nargile deneyimi' },
+                { t: 'Akşam Ambiyansı',   s: 'Keyifli saatler için doğayla iç içe' }
+            ];
+
+            let idx = 0;
+            let timer = null;
+
+            slides.forEach((_, i) => {
+                const dot = document.createElement('button');
+                dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+                dot.setAttribute('aria-label', 'Görsel ' + (i + 1));
+                dot.addEventListener('click', () => { go(i); restart(); });
+                dotsWrap.appendChild(dot);
+            });
+            const dots = Array.from(dotsWrap.children);
+
+            function go(n) {
+                slides[idx].classList.remove('active');
+                dots[idx].classList.remove('active');
+                idx = (n + slides.length) % slides.length;
+                slides[idx].classList.add('active');
+                dots[idx].classList.add('active');
+                if (captions[idx]) {
+                    capTitle.textContent = captions[idx].t;
+                    capSub.textContent = captions[idx].s;
+                }
+            }
+            function next() { go(idx + 1); }
+            function restart() { clearInterval(timer); timer = setInterval(next, 4500); }
+            restart();
+        })();
+
+        // 3c. Görsel & kaynak koruması (istemci tarafı caydırıcı önlemler)
+        // Not: Tarayıcı tabanlı hiçbir yöntem %100 koruma sağlamaz; bunlar sıradan
+        // kullanıcının kaydetmesini/kopyalamasını zorlaştırır.
+        (function protectAssets() {
+            const isEditable = el => el && (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.isContentEditable);
+
+            // Sağ tık menüsünü engelle (form alanları hariç)
+            document.addEventListener('contextmenu', e => { if (!isEditable(e.target)) e.preventDefault(); });
+
+            // Görsel sürükleyip kaydetmeyi engelle
+            document.addEventListener('dragstart', e => {
+                if (e.target && (e.target.tagName === 'IMG' || e.target.tagName === 'VIDEO')) e.preventDefault();
+            });
+
+            // Kaynak görüntüleme / kaydetme / geliştirici araçları kısayollarını engelle
+            document.addEventListener('keydown', e => {
+                const k = (e.key || '').toLowerCase();
+                if (k === 'f12') { e.preventDefault(); return; }
+                if ((e.ctrlKey || e.metaKey) && !e.shiftKey && (k === 'u' || k === 's')) { e.preventDefault(); return; }
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && (k === 'i' || k === 'j' || k === 'c')) { e.preventDefault(); return; }
+            });
+        })();
+
+        // 3d. WhatsApp prompt bubble + Google review popup
+        (function initFloatingWidgets() {
+            // WhatsApp bubble
+            const bubble = document.getElementById('waBubble');
+            const bubbleClose = document.getElementById('waBubbleClose');
+            const waFloat = document.getElementById('waFloat');
+            if (bubble && !sessionStorage.getItem('waBubbleDismissed')) {
+                setTimeout(() => bubble.classList.add('show'), 2600);
+            }
+            function dismissBubble() {
+                if (!bubble) return;
+                bubble.classList.remove('show');
+                sessionStorage.setItem('waBubbleDismissed', '1');
+            }
+            if (bubbleClose) bubbleClose.addEventListener('click', (e) => { e.preventDefault(); dismissBubble(); });
+            if (waFloat) waFloat.addEventListener('click', dismissBubble);
+
+            // Google review popup — shows once per session, after a delay or on deep scroll
+            const pop = document.getElementById('reviewPop');
+            const popClose = document.getElementById('reviewPopClose');
+            if (pop && !sessionStorage.getItem('reviewDismissed')) {
+                let shown = false;
+                const showPop = () => {
+                    if (shown) return;
+                    shown = true;
+                    pop.classList.add('show');
+                    window.removeEventListener('scroll', onScroll);
+                };
+                const onScroll = () => {
+                    const p = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
+                    if (p > 0.55) showPop();
+                };
+                setTimeout(showPop, 9000);
+                window.addEventListener('scroll', onScroll, { passive: true });
+                const dismissPop = () => { pop.classList.remove('show'); sessionStorage.setItem('reviewDismissed', '1'); };
+                if (popClose) popClose.addEventListener('click', dismissPop);
+                pop.querySelector('.review-pop-btn').addEventListener('click', dismissPop);
+            }
+        })();
+
+        // 3e. Press logo marquee (source wordmarks, auto-scrolling)
+        (function initPressMarquee() {
+            const track = document.getElementById('pressTrack');
+            if (!track) return;
+            const outlets = [
+                { name: 'Beylikdüzü TV',    logo: 'assets/web/logos/beylikduzutv.png',  url: 'https://beylikduzu.tv/beylikduzunun-yeni-gozdesi-empire-garden-hizmete-acildi/' },
+                { name: 'Haber Birgün',     logo: 'assets/web/logos/haberbirgun.png',  url: 'https://haberbirgun.com/beylikduzunun-gozde-lezzet-duragi-empire-garden-cafe-zengin-serpme-kahvaltisiyla-fark-yaratiyor/' },
+                { name: 'Son Dakika 24',    logo: 'assets/web/logos/sondakika.png',    url: 'https://www.sondakika-24.com/empire-garden-cafe-restaurant-premium-nargile-sunumuyla-fark-yaratiyor' },
+                { name: 'Akyazı Son Haber', logo: 'assets/web/logos/akyazi.png',       url: 'https://akyazisonhaber.com/yasam/unlulerin-tercihi-empire-garden-cafe-restaurant-beylikduzunde-nargile-keyfinin-vazgecilmez-adresi-57579.html' },
+                { name: 'Magazin Times',    logo: 'assets/web/logos/magazintimes.png', url: 'https://magazintimes.com/unlulerin-ugrak-noktasi-empire-garden-cafe-beylikduzunde-kahvaltinin-vazgecilmez-adresi/' },
+                { name: 'Bu Haber',         logo: 'assets/web/logos/buhaber.png',      url: 'https://buhaber.com.tr/unlulerin-tercihi-empire-garden-cafe-restaurant-beylikduzunde-nargile-keyfinin-vazgecilmez-adresi/' },
+                { name: 'Türkiye Ses',      logo: 'assets/web/logos/turkiyeses.png',   url: 'https://turkiyeses.com/unlulerin-ugrak-noktasi-empire-garden-cafe-beylikduzunde-kahvaltinin-yeni-adresi/' },
+                { name: 'TNT Haber',        logo: 'assets/web/logos/tnthaber.png',     url: 'https://www.tnthaber.com/yasam/empire-garden-cafe-kahvalti-tutkunlarinin-vazgecilmez-adresi/' }
+            ];
+            const chip = o => {
+                const inner = o.logo
+                    ? '<img src="' + o.logo + '" alt="' + o.name + '" loading="lazy">'
+                    : '<span class="press-logo-text">' + o.name + '</span>';
+                return '<a class="press-logo" href="' + o.url + '" target="_blank" rel="noopener" aria-label="' + o.name + '">' + inner + '</a>';
+            };
+            const html = outlets.map(chip).join('');
+            track.innerHTML = html + html; // duplicate for a seamless -50% loop
+        })();
 
         // 4. Reservation Wizard Logic
         let currentStep = 1;
