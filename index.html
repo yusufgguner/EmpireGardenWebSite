@@ -76,6 +76,8 @@
         html {
             scroll-behavior: smooth;
             font-size: 16px;
+            overflow-x: hidden;
+            max-width: 100%;
         }
 
         body {
@@ -875,6 +877,62 @@
             color: var(--color-primary-dark);
         }
 
+        /* "+N daha" blurred teaser tile (last visible tile when collapsed) */
+        .gallery-more-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 4;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(10, 28, 19, 0.5);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+            color: var(--color-white);
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+
+        .gallery-card.more-tile .gallery-more-overlay {
+            display: flex;
+        }
+
+        .gallery-card.more-tile img {
+            transform: scale(1.05);
+            filter: brightness(0.75);
+        }
+
+        .gallery-card.more-tile:hover .gallery-more-overlay {
+            background: rgba(10, 28, 19, 0.62);
+        }
+
+        .gallery-card.more-tile .gallery-card-zoom,
+        .gallery-card.more-tile .gallery-hover-overlay {
+            display: none;
+        }
+
+        .gallery-more-overlay svg {
+            width: 40px;
+            height: 40px;
+            color: var(--color-gold-light);
+        }
+
+        .gallery-more-count {
+            font-family: var(--font-heading);
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .gallery-more-label {
+            font-size: 0.72rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            opacity: 0.85;
+        }
+
         /* Senior Lightbox Viewer */
         .lightbox-backdrop {
             position: fixed;
@@ -1003,16 +1061,18 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            height: 62px;
-            padding: 0 6px;
-            opacity: 0.82;
+            width: 160px;
+            height: 60px;
+            padding: 0 8px;
+            opacity: 0.85;
             transition: var(--transition-smooth);
         }
 
         .press-logo img {
-            height: 40px;
+            max-width: 100%;
+            max-height: 42px;
             width: auto;
-            max-width: 200px;
+            height: auto;
             object-fit: contain;
         }
 
@@ -1346,7 +1406,8 @@
 
         .category-tab-btn {
             flex: 1;
-            padding: 14px;
+            min-width: 0;
+            padding: 14px 10px;
             border-radius: var(--radius-sm);
             border: 1px solid #DCD4C8;
             background: var(--color-bg-elevated);
@@ -1357,6 +1418,7 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            white-space: nowrap;
         }
 
         .category-tab-btn.active {
@@ -1776,12 +1838,100 @@
                 height: 54px;
             }
 
+            /* Compact / minimized review popup on phones & tablets */
             .review-pop {
+                left: auto;
                 right: 12px;
-                left: 12px;
-                bottom: 158px;
-                width: auto;
-                max-width: none;
+                bottom: 86px;
+                width: 210px;
+                max-width: calc(100vw - 90px);
+                padding: 12px 14px 14px;
+            }
+
+            .review-pop-head {
+                gap: 9px;
+                margin-bottom: 8px;
+            }
+
+            .review-pop-head svg {
+                width: 20px;
+                height: 20px;
+            }
+
+            .review-pop-head strong {
+                font-size: 0.82rem;
+                line-height: 1.25;
+            }
+
+            .review-pop-stars {
+                font-size: 0.8rem;
+                letter-spacing: 2px;
+            }
+
+            .review-pop-text {
+                display: none;
+            }
+
+            .review-pop-btn {
+                padding: 9px;
+                font-size: 0.8rem;
+            }
+
+            .review-pop-close {
+                top: 6px;
+                right: 9px;
+                font-size: 1.2rem;
+            }
+
+            /* Footer bottom bar: stack instead of colliding */
+            .footer-bottom-bar {
+                flex-direction: column;
+                gap: 8px;
+                text-align: center;
+            }
+
+            /* Press logo marquee: smaller uniform slots on mobile */
+            .press-logo {
+                width: 118px;
+                height: 46px;
+            }
+
+            .press-logo img {
+                max-height: 30px;
+            }
+
+            .press-marquee-track {
+                gap: 26px;
+            }
+        }
+
+        /* ---- Phones (≤600px) ---- */
+        @media (max-width: 600px) {
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .category-tab-btn {
+                padding: 12px 6px;
+                font-size: 0.9rem;
+                gap: 6px;
+            }
+
+            .category-tab-btn svg {
+                width: 15px;
+                height: 15px;
+            }
+
+            .container {
+                padding: 0 18px;
+            }
+
+            .hero-title {
+                font-size: 2.2rem;
+            }
+
+            .display-title {
+                font-size: 1.95rem;
             }
         }
     </style>
@@ -1943,7 +2093,7 @@
 
                     <div class="feature-card">
                         <div class="feature-icon-wrapper">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></svg>
                         </div>
                         <div>
                             <div class="feature-title">Vale Hizmeti</div>
@@ -2578,14 +2728,23 @@
             card.innerHTML =
                 '<img src="' + item.src + '" alt="Empire Garden - ' + CAT_LABEL[item.cat] + '" loading="lazy">' +
                 '<div class="gallery-card-zoom"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg></div>' +
-                '<div class="gallery-hover-overlay"><span class="gallery-card-tag">' + CAT_LABEL[item.cat] + '</span></div>';
-            card.addEventListener('click', () => openLightbox(i));
+                '<div class="gallery-hover-overlay"><span class="gallery-card-tag">' + CAT_LABEL[item.cat] + '</span></div>' +
+                '<div class="gallery-more-overlay"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg><span class="gallery-more-count"></span><span class="gallery-more-label">Tümünü Gör</span></div>';
+            card.addEventListener('click', () => {
+                if (card.classList.contains('more-tile')) {
+                    galleryExpanded = true;
+                    filterGallery('all');
+                } else {
+                    openLightbox(i);
+                }
+            });
             galleryGrid.appendChild(card);
         });
 
-        // Initially only the first block (Mekan & Bahçe) is shown in the "Tümü" view;
-        // the rest is revealed with the "Daha Fazla Göster" button.
-        const INITIAL_COUNT = GALLERY_PHOTOS.mekan.length;
+        // Collapsed "Tümü" view = 8 tiles: 7 photos + an 8th blurred "+N daha" teaser
+        // tile that expands the full gallery on click.
+        const CLEAR_TILES = 7;     // fully-visible photos before the teaser
+        const TILE_LIMIT = 8;      // total tiles shown when collapsed (7 + teaser)
         let galleryExpanded = false;
         const moreBtn = document.getElementById('galleryMoreBtn');
         const moreLabel = document.getElementById('galleryMoreLabel');
@@ -2596,43 +2755,52 @@
                 b.classList.toggle('active', b.dataset.cat === cat);
             });
 
-            let matchPos = 0, shown = 0, totalMatch = 0;
-            galleryGrid.querySelectorAll('.gallery-card').forEach(card => {
-                const match = (cat === 'all' || card.dataset.cat === cat);
-                if (!match) { card.classList.add('is-hidden'); return; }
-                totalMatch++;
-                const withinLimit = (cat !== 'all') || galleryExpanded || (matchPos < INITIAL_COUNT);
-                matchPos++;
-                if (withinLimit) {
+            const cards = [...galleryGrid.querySelectorAll('.gallery-card')];
+            const matches = cards.filter(c => cat === 'all' || c.dataset.cat === cat);
+            const collapsed = (cat === 'all' && !galleryExpanded && matches.length > TILE_LIMIT);
+
+            // reset states
+            cards.forEach(c => { c.classList.remove('more-tile'); });
+
+            let idx = 0;
+            cards.forEach(card => {
+                if (!matches.includes(card)) { card.classList.add('is-hidden'); return; }
+                const pos = idx++;
+                const visible = !collapsed || pos < TILE_LIMIT;
+                if (visible) {
                     card.classList.remove('is-hidden');
                     card.classList.add('is-entering');
-                    shown++;
                     requestAnimationFrame(() => requestAnimationFrame(() => card.classList.remove('is-entering')));
                 } else {
                     card.classList.add('is-hidden');
                 }
+                // 8th tile becomes the blurred "+N daha" teaser
+                if (collapsed && pos === CLEAR_TILES) {
+                    card.classList.add('more-tile');
+                    const remaining = matches.length - CLEAR_TILES;
+                    card.querySelector('.gallery-more-count').textContent = '+' + remaining;
+                }
             });
 
-            galleryCount.textContent = (shown < totalMatch)
-                ? shown + ' / ' + totalMatch + ' fotoğraf'
-                : totalMatch + ' fotoğraf';
+            const shown = collapsed ? CLEAR_TILES : matches.length;
+            galleryCount.textContent = (shown < matches.length)
+                ? shown + ' / ' + matches.length + ' fotoğraf'
+                : matches.length + ' fotoğraf';
 
-            // Toggle the "show more" button (only meaningful in the "Tümü" view)
-            if (cat === 'all' && totalMatch > INITIAL_COUNT) {
+            // The blurred tile is the expander; the button only offers "collapse" once expanded.
+            if (cat === 'all' && matches.length > TILE_LIMIT && galleryExpanded) {
                 moreBtn.style.display = 'inline-flex';
-                moreBtn.classList.toggle('expanded', galleryExpanded);
-                moreLabel.textContent = galleryExpanded ? 'Daha Az Göster' : 'Daha Fazla Göster';
+                moreBtn.classList.add('expanded');
+                moreLabel.textContent = 'Daha Az Göster';
             } else {
                 moreBtn.style.display = 'none';
             }
         }
 
         moreBtn.addEventListener('click', () => {
-            galleryExpanded = !galleryExpanded;
+            galleryExpanded = false;
             filterGallery('all');
-            if (!galleryExpanded) {
-                document.getElementById('galeri').scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
+            document.getElementById('galeri').scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
 
         // Lightbox with prev/next scoped to current filter
@@ -2782,9 +2950,9 @@
                 };
                 const onScroll = () => {
                     const p = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
-                    if (p > 0.55) showPop();
+                    if (p > 0.72) showPop();
                 };
-                setTimeout(showPop, 9000);
+                setTimeout(showPop, 14000);
                 window.addEventListener('scroll', onScroll, { passive: true });
                 const dismissPop = () => { pop.classList.remove('show'); sessionStorage.setItem('reviewDismissed', '1'); };
                 if (popClose) popClose.addEventListener('click', dismissPop);
