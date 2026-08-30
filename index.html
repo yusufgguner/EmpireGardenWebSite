@@ -12,8 +12,6 @@
     <meta name="theme-color" content="#153324">
     <meta name="geo.region" content="TR-34">
     <meta name="geo.placename" content="Beylikdüzü, İstanbul">
-
-    <!-- Alan adı alınınca SADECE aşağıdaki 4 adresi ve robots.txt/sitemap.xml'i güncelle -->
     <link rel="canonical" href="https://www.empiregarden.com.tr/">
 
     <!-- Open Graph -->
@@ -1636,12 +1634,57 @@
             color: var(--color-gold);
         }
 
+        /* Build credit — the studio behind the site */
+        .footer-credit {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .footer-credit a {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--color-gold);
+            font-weight: 700;
+            letter-spacing: .2px;
+            padding: 2px 4px;
+            border-radius: 4px;
+            transition: var(--transition-fast);
+        }
+
+        .footer-credit a:hover {
+            color: var(--color-gold-light);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .footer-credit a img {
+            height: 18px;
+            width: auto;
+            opacity: .9;
+            transition: var(--transition-fast);
+        }
+
+        .footer-credit a:hover img {
+            opacity: 1;
+            transform: rotate(-8deg);
+        }
+
+        /* keeps "LineraSoft'a saklıdır" from ever breaking apart */
+        .footer-credit-name {
+            white-space: nowrap;
+        }
+
         .footer-bottom-bar {
             padding-top: 32px;
             border-top: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 10px;
             font-size: 0.85rem;
             color: rgba(255, 255, 255, 0.5);
         }
@@ -2511,9 +2554,9 @@
                                 <div style="width: 72px; height: 72px; border-radius: 50%; background: rgba(197, 160, 89, 0.2); color: var(--color-primary); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px auto;">
                                     <svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
                                 </div>
-                                <h3 style="font-family: var(--font-heading); font-size: 2.2rem; color: var(--color-primary); margin-bottom: 12px;">Rezervasyon Talebiniz Alındı!</h3>
+                                <h3 style="font-family: var(--font-heading); font-size: 2.2rem; color: var(--color-primary); margin-bottom: 12px;">Rezervasyon Talebiniz Hazır!</h3>
                                 <p style="color: var(--color-text-muted); margin-bottom: 24px; font-size: 1.05rem;">
-                                    Talebiniz ekibimize ulaştı. Kısa süre içinde telefon numaranız üzerinden teyit araması iletilecektir.
+                                    WhatsApp penceresi açıldı — mesajı <strong>gönderdiğinizde</strong> talebiniz bize ulaşır. Ekibimiz kısa süre içinde teyit için arayacaktır.
                                 </p>
                                 <div class="confirmation-summary-card" id="summaryBox">
                                     <!-- Dynamic JS Summary -->
@@ -2584,7 +2627,7 @@
                             </button>
                         </form>
                         <div id="fbSuccessMsg" style="display: none; text-align: center; color: var(--color-primary); font-weight: 700; margin-top: 20px;">
-                            ✓ Mesajınız yönetime iletilmiştir. Teşekkür ederiz!
+                            ✓ WhatsApp penceresi açıldı — mesajı gönderdiğinizde bize ulaşır. Teşekkür ederiz!
                         </div>
                     </div>
                 </div>
@@ -2662,8 +2705,11 @@
 
             <!-- Footer Bottom -->
             <div class="footer-bottom-bar">
-                <div>© 2026 Empire Garden Beylikdüzü. Tüm Hakları Saklıdır.</div>
-                <div>Lüks & Doğallığın Buluşma Noktası</div>
+                <div>© <span id="footerYear">2026</span> Empire Garden Beylikdüzü. Tüm Hakları Saklıdır.</div>
+                <div class="footer-credit">
+                    <span>Web sitesi hakları</span>
+                    <span class="footer-credit-name"><a href="https://www.linerasoft.com/" target="_blank" rel="noopener" title="LineraSoft — web tasarım &amp; yazılım"><img src="assets/web/logos/linerasoft-beyaz.png" alt="LineraSoft" width="85" height="96">LineraSoft</a>'a saklıdır</span>
+                </div>
             </div>
         </div>
     </footer>
@@ -2720,6 +2766,12 @@
          VANILLA JAVASCRIPT ENGINE
          ========================================================================== -->
     <script>
+        // 0. Footer year stays current on its own
+        (function () {
+            const y = document.getElementById('footerYear');
+            if (y) y.textContent = new Date().getFullYear();
+        })();
+
         // 1. Header Blur & Elevation Control
         const header = document.getElementById('header');
         window.addEventListener('scroll', () => {
@@ -2836,11 +2888,25 @@
         };
 
         // Flatten into a single ordered list of {src, cat}
+        // Showcase shots that open the gallery in the "Tümü" view — one strong frame
+        // per offering (mekan, kahvaltı, yemek, içecek, tatlı, nargile) so the first
+        // screen sells the whole venue instead of six near-identical garden photos.
+        const FEATURED = [5915, 5480, 5916, 5894, 5560, 5906, 5559];
+
         const GALLERY_ITEMS = [];
         Object.keys(GALLERY_PHOTOS).forEach(cat => {
             GALLERY_PHOTOS[cat].forEach(n => {
-                GALLERY_ITEMS.push({ src: 'assets/web/IMG_' + n + '.jpg', cat });
+                GALLERY_ITEMS.push({ id: n, src: 'assets/web/IMG_' + n + '.jpg', cat });
             });
+        });
+
+        // hoist the featured frames to the front, keeping FEATURED's own order
+        GALLERY_ITEMS.sort((a, b) => {
+            const ia = FEATURED.indexOf(a.id), ib = FEATURED.indexOf(b.id);
+            if (ia !== -1 && ib !== -1) return ia - ib;
+            if (ia !== -1) return -1;
+            if (ib !== -1) return 1;
+            return 0;
         });
 
         const galleryGrid = document.getElementById('galleryGrid');
@@ -3172,6 +3238,17 @@
             const name = document.getElementById('resName').value;
             const phone = document.getElementById('resPhone').value;
 
+            // Sunucu yok: talep, hazır bir WhatsApp mesajına dönüştürülüp işletmeye iletilir.
+            const waText =
+                'Merhaba, Empire Garden rezervasyon talebi:' +
+                '\nAd Soyad: ' + name +
+                '\nTelefon: ' + phone +
+                '\nAlan: ' + area +
+                '\nTarih: ' + date +
+                '\nSaat: ' + time +
+                '\nKisi sayisi: ' + guests;
+            window.open('https://wa.me/905304279404?text=' + encodeURIComponent(waText), '_blank', 'noopener');
+
             document.getElementById('summaryBox').innerHTML = `
                 <strong>Rezervasyon Özeti:</strong><br>
                 👤 <strong>İsim:</strong> ${name}<br>
@@ -3200,6 +3277,19 @@
 
         function handleFeedbackSubmit(e) {
             e.preventDefault();
+
+            // Sunucu yok: geri bildirim WhatsApp mesajina dönüstürülüp iletilir.
+            const catEl = document.getElementById('feedbackCategory');
+            const fbCat = catEl && catEl.value ? catEl.value : 'Geri bildirim';
+            const val = id => { const el = document.getElementById(id); return el ? el.value.trim() : ''; };
+            const fbText =
+                'Empire Garden - ' + fbCat +
+                '\nAd Soyad: ' + val('fbName') +
+                '\nTelefon: ' + val('fbPhone') +
+                (val('fbEmail') ? '\nE-posta: ' + val('fbEmail') : '') +
+                '\nMesaj: ' + val('fbMessage');
+            window.open('https://wa.me/905304279404?text=' + encodeURIComponent(fbText), '_blank', 'noopener');
+
             document.getElementById('feedbackForm').reset();
             const msg = document.getElementById('fbSuccessMsg');
             msg.style.display = 'block';

@@ -1,0 +1,17 @@
+# Yayın çıktısı — build.py ile yeniden üretilir, depoda tutulmaz
+dist/
+
+# Editör / işletim sistemi artıkları
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+*.swp
+*~
+
+# Claude Code yerel yapılandırması
+.claude/
+
+# Python artiklari
+__pycache__/
+*.pyc
