@@ -167,12 +167,18 @@ def collect_assets(html):
     needed = set(re.findall(r'(?:src|href|poster|content)="(assets/[^"]+)"', html))
     needed |= set(re.findall(r"'(assets/[^']+\.(?:jpg|png|mp4|webp|svg))'", html))
 
-    # JS'te 'assets/web/IMG_' + numara şeklinde kurulan galeri yolları
+    # Galeri manifesti iki biçim kullanır:
+    #   sayı  -> assets/web/IMG_<sayı>.jpg
+    #   metin -> assets/web/<metin>.jpg   (SEO adlı ürün çekimleri)
     for const in ("GALLERY_PHOTOS", "FEATURED"):
         m = re.search(r"const %s\s*=\s*[\[{](.*?)[\]}];" % const, html, re.S)
-        if m:
-            for num in re.findall(r"\b(\d{4})\b", m.group(1)):
-                needed.add("assets/web/IMG_%s.jpg" % num)
+        if not m:
+            continue
+        body = m.group(1)
+        for num in re.findall(r"\b(\d{4})\b", body):
+            needed.add("assets/web/IMG_%s.jpg" % num)
+        for name in re.findall(r"'([a-z0-9][a-z0-9-]*)'", body):
+            needed.add("assets/web/%s.jpg" % name)
 
     return sorted(needed)
 
@@ -181,12 +187,28 @@ def main():
     if not os.path.exists(SRC_HTML):
         sys.exit("index.html bulunamadı")
 
-    if os.path.exists(DIST):
-        shutil.rmtree(DIST)
-    os.makedirs(DIST)
+    os.makedirs(DIST, exist_ok=True)
 
     html, before, after = build_html()
     assets = collect_assets(html)
+
+    # dist'i silip bastan kurmak yerine senkronluyoruz: Windows'ta tarayici
+    # acik bir videoyu kilitledigi anda rmtree patliyordu. Degismeyen dosyaya
+    # hic dokunmadigimiz icin kilitli dosya da sorun cikarmiyor.
+    wanted = set(rel.replace("/", os.sep) for rel in assets)
+    wanted |= {"index.html", "robots.txt", "sitemap.xml"}
+
+    stale = []
+    for base, _dirs, files in os.walk(DIST):
+        for f in files:
+            rel = os.path.relpath(os.path.join(base, f), DIST)
+            if rel not in wanted:
+                stale.append(os.path.join(base, f))
+    for p in stale:
+        try:
+            os.remove(p)
+        except OSError as e:
+            print("silinemedi   :", os.path.relpath(p, DIST), "-", e.strerror)
 
     missing = []
     copied = 0
@@ -196,6 +218,10 @@ def main():
             missing.append(rel)
             continue
         dst = os.path.join(DIST, rel.replace("/", os.sep))
+        if os.path.exists(dst):
+            a, b = os.stat(src), os.stat(dst)
+            if a.st_size == b.st_size and int(a.st_mtime) == int(b.st_mtime):
+                continue                      # ayni dosya: kopyalama
         os.makedirs(os.path.dirname(dst), exist_ok=True)
         shutil.copy2(src, dst)
         copied += 1
@@ -210,7 +236,7 @@ def main():
 
     print("index.html : %s -> %s  (%%%.0f kucuduk)"
           % (human(before), human(after), (1 - after / before) * 100))
-    print("varlik     : %d dosya kopyalandi" % copied)
+    print("varlik     : %d dosya guncellendi (%d referans)" % (copied, len(assets)))
     if missing:
         print("EKSIK      : %d dosya bulunamadi!" % len(missing))
         for m in missing:
