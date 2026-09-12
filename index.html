@@ -789,34 +789,6 @@
             height: 42px;
         }
 
-        /* aşağı kaydır işareti */
-        .hero-scroll {
-            position: absolute;
-            left: 50%;
-            bottom: 168px;
-            transform: translateX(-50%);
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 7px;
-            color: rgba(255, 255, 255, 0.62);
-            font-size: 0.68rem;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-        }
-
-        .hero-scroll__line {
-            width: 1px;
-            height: 38px;
-            background: linear-gradient(to bottom, rgba(255,255,255,.55), transparent);
-            animation: scrollCue 2.2s ease-in-out infinite;
-        }
-
-        @keyframes scrollCue {
-            0%, 100% { opacity: .25; transform: scaleY(.55); transform-origin: top; }
-            50%      { opacity: 1;   transform: scaleY(1);   transform-origin: top; }
-        }
 
         /* ==========================================================================
            4. FEATURE BADGES (SVG Vector Icons)
@@ -2341,9 +2313,6 @@
                 right: 10px;
             }
 
-            .hero-scroll {
-                display: none;
-            }
 
             .hero-fact {
                 padding: 14px 14px;
@@ -2590,10 +2559,6 @@
 
             <div class="hero-dots" id="heroDots" role="tablist" aria-label="Tanıtım görselleri"></div>
 
-            <div class="hero-scroll" aria-hidden="true">
-                <span class="hero-scroll__line"></span>
-                Keşfet
-            </div>
 
             <div class="container hero-inner">
                 <div class="hero-copy">
