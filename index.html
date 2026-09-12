@@ -266,6 +266,7 @@
             transition: var(--transition-smooth);
             position: relative;
             overflow: hidden;
+            white-space: nowrap;   /* "Rezervasyon Yap" dar basliktan alt satira kayiyordu */
         }
 
         .btn-luxury-primary {
@@ -340,11 +341,12 @@
             justify-content: space-between;
         }
 
-        /* Brand mark — gerçek logo (assets/logo/logo2.jpg, zemini silinmiş) */
+        /* Brand mark — logo görseli (arka planı silinmiş) */
         .brand-logo {
             display: inline-flex;
             align-items: center;
             line-height: 0;
+            flex-shrink: 0;        /* dar basliklarda logo ezilmesin */
             transition: var(--transition-smooth);
         }
 
@@ -454,10 +456,12 @@
             position: relative;
             z-index: 1;
             display: block;
-            padding: 9px 16px;
+            /* 8 baglanti + rezervasyon butonu 1200px'lik kapsayiciya ancak
+               bu daraltmayla sigiyor; onceki 16px/0.9rem tasma yapiyordu. */
+            padding: 9px 13px;
             border-radius: var(--radius-full);
             font-weight: 600;
-            font-size: 0.9rem;
+            font-size: 0.86rem;
             letter-spacing: .1px;
             color: var(--color-text);
             white-space: nowrap;
@@ -491,6 +495,7 @@
             display: flex;
             align-items: center;
             gap: 16px;
+            flex-shrink: 0;        /* daralma menude olsun, butonda degil */
         }
 
         .phone-quick-btn {
@@ -692,7 +697,7 @@
         }
 
         .hero-description {
-            font-size: clamp(1rem, 1.6vw, 1.16rem);
+            font-size: clamp(1.15rem, 1.6vw, 1.16rem);
             color: rgba(255, 255, 255, 0.86);
             margin-bottom: 32px;
             line-height: 1.7;
@@ -2223,6 +2228,42 @@
         /* ==========================================================================
            13. RESPONSIVE MEDIA QUERIES
            ========================================================================== */
+        /* Tam yatay menu + rezervasyon butonu ancak 1140px'den itibaren
+           tasmadan siğiyor; altinda hamburger cekmeceye dusuyoruz. */
+        @media (max-width: 1139px) {
+            .nav-menu, .header-actions .btn-luxury {
+                display: none;
+            }
+
+            .mobile-toggle-btn {
+                display: flex;
+            }
+        }
+
+        /* 1140-1279: menu siğiyor ama dar; baglantilari bir tik daraltiyoruz. */
+        @media (min-width: 1140px) and (max-width: 1279px) {
+            .header-inner { gap: 12px; }
+
+            .nav-menu { gap: 2px; }
+
+            .nav-link {
+                padding: 9px 10px;
+                font-size: 0.82rem;
+            }
+
+            .header-actions { gap: 10px; }
+
+            .header-actions .btn-luxury {
+                padding: 14px 22px;
+                font-size: 0.86rem;
+            }
+
+            .phone-quick-btn {
+                width: 42px;
+                height: 42px;
+            }
+        }
+
         @media (max-width: 1024px) {
             .about-grid {
                 grid-template-columns: 1fr;
@@ -2256,18 +2297,12 @@
         }
 
         @media (max-width: 768px) {
-            .nav-menu, .header-actions .btn-luxury {
-                display: none;
-            }
-
-            .mobile-toggle-btn {
-                display: flex;
-            }
-
             /* hero: mobilde sıkı yerleşim (başlık boyutu clamp ile).
                Amaç: içerik tek ekrana sığsın, bilgi şeridi sabit çubuğun üstünde kalsın. */
             .hero-section {
-                padding-top: 104px;
+                padding-top: 96px;
+                /* sabit alt cubuk 78px: bilgi seridi onun altinda kalmasin */
+                padding-bottom: 92px;
             }
 
             .hero-status {
@@ -2283,7 +2318,6 @@
 
             .hero-description {
                 margin-bottom: 20px;
-                font-size: 0.97rem;
                 line-height: 1.6;
             }
 
@@ -2479,8 +2513,8 @@
             <div class="header-inner">
                 <!-- Brand Logo -->
                 <a href="#" class="brand-logo" aria-label="Empire Garden Ana Sayfa">
-                    <img class="brand-logo__onLight" src="assets/web/logos/brand-dark.png" alt="Empire Garden" width="700" height="249">
-                    <img class="brand-logo__onDark" src="assets/web/logos/brand-light.png" alt="Empire Garden" width="700" height="249">
+                    <img class="brand-logo__onLight" src="assets/web/logos/brand-dark.png" alt="Empire Garden" width="568" height="220">
+                    <img class="brand-logo__onDark" src="assets/web/logos/brand-light.png" alt="Empire Garden" width="568" height="220">
                 </a>
 
                 <!-- Desktop Navigation Menu -->
@@ -2522,7 +2556,7 @@
         <div>
             <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px;">
                 <div class="brand-logo">
-                    <img src="assets/web/logos/brand-dark.png" alt="Empire Garden" width="700" height="249">
+                    <img src="assets/web/logos/brand-dark.png" alt="Empire Garden" width="568" height="220">
                 </div>
                 <button id="closeDrawerBtn" style="font-size: 2rem; color: var(--color-primary);">&times;</button>
             </div>
@@ -2551,10 +2585,10 @@
             <div class="hero-bg" id="heroSlides" aria-hidden="true">
                 <div class="hero-slide active"><img src="assets/web/IMG_5915.jpg" alt="" fetchpriority="high"></div>
                 <div class="hero-slide"><img src="assets/web/IMG_5916.jpg" alt="" loading="lazy"></div>
-                <div class="hero-slide"><img src="assets/web/IMG_5480.jpg" alt="" loading="lazy"></div>
-                <div class="hero-slide"><img src="assets/web/IMG_5882.jpg" alt="" loading="lazy"></div>
-                <div class="hero-slide"><img src="assets/web/IMG_5560.jpg" alt="" loading="lazy"></div>
-                <div class="hero-slide"><img src="assets/web/IMG_5559.jpg" alt="" loading="lazy"></div>
+                <div class="hero-slide"><img src="assets/web/IMG_5917.jpg" alt="" loading="lazy"></div>
+                <div class="hero-slide"><img src="assets/web/IMG_5921.jpg" alt="" loading="lazy"></div>
+                <div class="hero-slide"><img src="assets/web/IMG_5488.jpg" alt="" loading="lazy"></div>
+                <div class="hero-slide"><img src="assets/web/IMG_5919.jpg" alt="" loading="lazy"></div>
             </div>
 
             <div class="hero-dots" id="heroDots" role="tablist" aria-label="Tanıtım görselleri"></div>
@@ -2776,7 +2810,7 @@
             <button class="lightbox-nav-btn prev" aria-label="Önceki" onclick="lightboxStep(-1)">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
             </button>
-            <img id="lightboxImg" src="" alt="Büyük Görünüm" onclick="event.stopPropagation()">
+            <img id="lightboxImg" alt="Büyük Görünüm" onclick="event.stopPropagation()">
             <button class="lightbox-nav-btn next" aria-label="Sonraki" onclick="lightboxStep(1)">
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
             </button>
@@ -2809,8 +2843,8 @@
                 <div style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 20px;">
                     <div>
                         <span class="script-tag">Sosyal Medyada Biz</span>
-                        <h2 class="display-title">Instagram Reels</h2>
-                        <p class="display-subtitle">Mekanımızdan ve lezzetlerimizden öne çıkan 9:16 dikey reels videoları.</p>
+                        <h2 class="display-title">Instagram'da Biz</h2>
+                        <p class="display-subtitle">Mekanımızdan ve lezzetlerimizden öne çıkan reels videoları.</p>
                     </div>
                     <a href="https://www.instagram.com/empiregarden_34/" target="_blank" rel="noopener" class="btn-luxury btn-luxury-outline">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
@@ -3153,7 +3187,7 @@
                 <!-- Brand Info -->
                 <div class="footer-brand">
                     <div class="brand-logo brand-logo--light">
-                        <img src="assets/web/logos/brand-light.png" alt="Empire Garden" width="700" height="249">
+                        <img src="assets/web/logos/brand-light.png" alt="Empire Garden" width="568" height="220">
                     </div>
                     <p>
                         Beylikdüzü'nde doğayla iç içe açık hava bahçe terası, zengin serpme kahvaltısı ve eşsiz akşam ambiyansıyla hizmetinizdeyiz.
@@ -3744,7 +3778,15 @@
                     const p = (window.scrollY + window.innerHeight) / document.body.scrollHeight;
                     if (p > 0.72) showPop();
                 };
-                setTimeout(showPop, 14000);
+                // Zamanlayici tek basina hero'nun ustunu kapatiyordu; once
+                // kullanicinin acilis ekranini gecmesini bekliyoruz.
+                const heroGecildiMi = () => window.scrollY > window.innerHeight * 0.8;
+                const zamanliDene = () => {
+                    if (shown) return;
+                    if (heroGecildiMi()) showPop();
+                    else setTimeout(zamanliDene, 4000);
+                };
+                setTimeout(zamanliDene, 14000);
                 window.addEventListener('scroll', onScroll, { passive: true });
                 const dismissPop = () => { pop.classList.remove('show'); sessionStorage.setItem('reviewDismissed', '1'); };
                 if (popClose) popClose.addEventListener('click', dismissPop);

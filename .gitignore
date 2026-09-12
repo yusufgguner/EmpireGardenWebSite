@@ -15,3 +15,6 @@ desktop.ini
 # Python artiklari
 __pycache__/
 *.pyc
+
+.vercel
+.env*
