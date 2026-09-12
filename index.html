@@ -2164,6 +2164,17 @@
             transition: var(--transition-smooth);
         }
 
+        /* Cekmece acikken yuzen dugmeler menunun onune geciyordu (z-index 1500). */
+        .mobile-drawer.open ~ .wa-wrap,
+        .mobile-drawer.open ~ .review-pop {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .wa-wrap {
+            transition: opacity .3s ease;
+        }
+
         .review-pop.show {
             opacity: 1;
             transform: translateY(0);
@@ -2409,19 +2420,25 @@
                 height: 54px;
             }
 
-            /* Compact / minimized review popup on phones & tablets */
+            /* Telefonda kutu seklinde durunca ekranin ortasini kapatiyordu;
+               WhatsApp dugmesinin sagindan baslayan tek satirlik seride cevirdik. */
             .review-pop {
-                left: auto;
+                left: 82px;
                 right: 12px;
-                bottom: 86px;
-                width: 210px;
-                max-width: calc(100vw - 90px);
-                padding: 12px 14px 14px;
+                bottom: 88px;
+                width: auto;
+                max-width: none;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                padding: 10px 30px 10px 12px;
             }
 
             .review-pop-head {
                 gap: 9px;
-                margin-bottom: 8px;
+                margin-bottom: 0;
+                flex: 1 1 auto;
+                min-width: 0;
             }
 
             .review-pop-head svg {
@@ -2429,14 +2446,16 @@
                 height: 20px;
             }
 
+            /* Baslik seritte uc satira kiriliyordu; telefonda Google logosu +
+               yildizlar + buton yeterince anlasilir. */
             .review-pop-head strong {
-                font-size: 0.82rem;
-                line-height: 1.25;
+                display: none;
             }
 
             .review-pop-stars {
-                font-size: 0.8rem;
-                letter-spacing: 2px;
+                font-size: 0.78rem;
+                letter-spacing: 1px;
+                margin-top: 0;
             }
 
             .review-pop-text {
@@ -2444,8 +2463,10 @@
             }
 
             .review-pop-btn {
-                padding: 9px;
-                font-size: 0.8rem;
+                flex: 0 0 auto;
+                padding: 9px 14px;
+                font-size: 0.78rem;
+                white-space: nowrap;
             }
 
             .review-pop-close {
@@ -2870,7 +2891,7 @@
                                 </button>
                             </div>
                             <div class="reels-bottom-caption">
-                                Empire Garden'da günün her anı ayrı güzel 💚
+                                Empire Garden sizlerin hizmetine açıldı! 💚
                             </div>
                         </div>
                     </div>
